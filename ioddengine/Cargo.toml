@@ -28,6 +28,9 @@ memmap = "0.7"
 zip = "0.6.6"
 tempfile = "3.9.0"
 
+tokio = { version = "1.36.0", features = ["full"] }
+
+
 [dev-dependencies]
 criterion = { version = "0.5.1", features = ["html_reports"] }
 

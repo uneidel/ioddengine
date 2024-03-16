@@ -33,17 +33,17 @@ Please see CLI for further information how to work with Library.
 Tested with the following  Devices:
 
 
-| Company  | deviceid   |  productname  | PDIN  | Write  |
-|----------|------------|---------------|-------|--------|
-|   IFM    |    372     |  05d150       |   X   |        |
-|   IFM    |            |  LMT121       |   X   |        |
-|   IFM    |            |  LR3300       |   X   |        |
-|   IFM    |            |  PN7592       |   X   |        |
-|   IFM    |            |  TN2405       |   X   |        |
-|   IFM    |            |      KQ5100   |   X   |        |
-|   AUTOSEN|    85      |      AL009    |   X   |        |
-|   AUTOSEN|    16      |      AS001    |   X   |        |
-|  IFM     |  872       |     SD1540    |   X   |        |
+| Company  | deviceid   |  productname  | PDIN  | Write  | Test |
+|----------|------------|---------------|-------|--------|------|
+|   IFM    |    372     |  05d150       |   X   |        |   X  |
+|   IFM    |            |  LMT121       |   X   |        |      |
+|   IFM    |            |  LR3300       |   X   |        |      |
+|   IFM    |            |  PN7592       |   X   |        |      |
+|   IFM    |            |  TN2405       |   X   |        |      |
+|   IFM    |            |      KQ5100   |   X   |        |  X   |
+|   AUTOSEN|    85      |      AL009    |   X   |        |  X   |
+|   AUTOSEN|    16      |      AS001    |   X   |        |  X   |
+|  IFM     |  872       |     SD1540    |   X   |        | X    |
 
 
 ## Vendor: 837, ProductName:AL009, Device:85

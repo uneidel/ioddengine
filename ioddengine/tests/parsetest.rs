@@ -9,7 +9,7 @@ use ioddengine::parser::Parser;
 // Define a test function
 #[test]
 fn test_defaultfiles() {
-    let dir_path = "/home/ulrich/Documents/ifm/iotcoreandiodd/data/Examples/"; // You can change this to the path of your desired directory
+    let dir_path = "../data/Examples/"; // You can change this to the path of your desired directory
     let entries = fs::read_dir(dir_path).unwrap();
    
     for entry in entries {
