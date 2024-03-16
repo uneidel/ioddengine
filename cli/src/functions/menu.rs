@@ -1,15 +1,15 @@
 
 use ioddengine::{engine::Engine,  parser::Parser, catalog::Catalog};
 use ioddengine::ioddmodel11::IODevice::*;
-pub async fn getmenu(vendorid : &i32, deviceid : &i32, productname : &String, role :&String, menu : &String,accessrights : &Option<String>){
+pub async fn getmenu(vendorid : &i32, deviceid : &i32, productname : &str, role :&str, menu : &str,accessrights : &Option<String>){
     
-    let roleset = match role.as_str(){
+    let roleset = match role{
         "observer" => RoleSet::Observer,
         "maintenance" => RoleSet::Maintenance,
         "specialist" => RoleSet::Specialist,
         _ => panic!("RoleSet not defined.")
     };
-    let rolemenu = match menu.as_str(){
+    let rolemenu = match menu{
         "observation" => RoleMenu::Observation,
         "diagnosis" => RoleMenu::Diagnosis,
         "parameter" => RoleMenu::Parameter,
