@@ -1,4 +1,4 @@
-workspace = {members  =[ "ioddengine", "wasm", "catalog","cli", "iotcoreconnect"]}
+workspace = {members  =[ "ioddengine", "wasm","cli", "iotcoreconnect"]}
 
 [package]
 name = "ioddlib"
