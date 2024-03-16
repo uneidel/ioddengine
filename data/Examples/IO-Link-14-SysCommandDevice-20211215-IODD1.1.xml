@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<IODevice xmlns="http://www.io-link.com/IODD/2010/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.io-link.com/IODD/2010/10 IODD1.1.xsd">
+  <DocumentInfo version="V1.00.000" releaseDate="2021-12-15" copyright="Copyright IO-Link Community 2021"/>
+  <ProfileHeader>
+    <ProfileIdentification>IO Device Profile</ProfileIdentification>
+    <ProfileRevision>1.1</ProfileRevision>
+    <ProfileName>Device Profile for IO Devices</ProfileName>
+    <ProfileSource>IO-Link Consortium</ProfileSource>
+    <ProfileClassID>Device</ProfileClassID>
+    <ISO15745Reference>
+      <ISO15745Part>1</ISO15745Part>
+      <ISO15745Edition>1</ISO15745Edition>
+      <ProfileTechnology>IODD</ProfileTechnology>
+    </ISO15745Reference>
+  </ProfileHeader>
+  <ProfileBody>
+    <DeviceIdentity vendorId="65535" deviceId="14" vendorName="IO-Link Community">
+      <VendorText textId="T_VendorText"/>
+      <VendorUrl textId="T_VendorUrl"/>
+      <VendorLogo name="IO-Link-logo.png"/>
+      <DeviceName textId="T_DeviceName"/>
+      <DeviceFamily textId="T_DeviceFamily"/>
+      <DeviceVariantCollection>
+        <DeviceVariant productId="ioddsample14" deviceSymbol="IO-Link-Device-pic.png" deviceIcon="IO-Link-Device-icon.png">
+          <Name textId="TN_ProductName"/>
+          <Description textId="TD_ProductDescr"/>
+        </DeviceVariant>
+      </DeviceVariantCollection>
+    </DeviceIdentity>
+    <DeviceFunction>
+      <Features blockParameter="true" dataStorage="true" profileCharacteristic="16384">
+        <SupportedAccessLocks parameter="false" dataStorage="false" localParameterization="false" localUserInterface="false"/>
+      </Features>
+      <DatatypeCollection>
+        <Datatype id="D_X_AdjustValue1" xsi:type="IntegerT" bitLength="16">
+          <ValueRange lowerValue="-10000" upperValue="10000"/>
+        </Datatype>
+        <Datatype id="D_X_AdjustValue2" xsi:type="IntegerT" bitLength="16">
+          <ValueRange lowerValue="1" upperValue="1000"/>
+          <SingleValue value="0">
+            <Name textId="TN_SV_X_AdjustValue_disabled"/>
+          </SingleValue>
+        </Datatype>
+        <Datatype id="D_X_ParamChannel" xsi:type="RecordT" bitLength="32">
+          <RecordItem subindex="1" bitOffset="16">
+            <DatatypeRef datatypeId="D_X_AdjustValue1"/>
+            <Name textId="TN_V_X_ParamChannel_AdjustValue1"/>
+            <Description textId="TD_V_X_ParamChannel_AdjustValue1"/>
+          </RecordItem>
+          <RecordItem subindex="2" bitOffset="0">
+            <DatatypeRef datatypeId="D_X_AdjustValue2"/>
+            <Name textId="TN_V_X_ParamChannel_AdjustValue2"/>
+            <Description textId="TD_V_X_ParamChannel_AdjustValue2"/>
+          </RecordItem>
+        </Datatype>
+      </DatatypeCollection>
+      <VariableCollection>
+        <StdVariableRef id="V_DirectParameters_1"/>
+        <StdVariableRef id="V_SystemCommand">
+          <StdSingleValueRef value="129"/>
+          <StdSingleValueRef value="131"/>
+          <SingleValue value="160">
+            <Name textId="TN_X_SystemCommand_Teachin"/>
+          </SingleValue>
+        </StdVariableRef>
+        <StdVariableRef id="V_VendorName" defaultValue="IO-Link Community"/>
+        <StdVariableRef id="V_VendorText"/>
+        <StdVariableRef id="V_ProductName" defaultValue="System Command Device"/>
+        <StdVariableRef id="V_ProductID" defaultValue="ioddsample14"/>
+        <StdVariableRef id="V_ProductText" defaultValue="IODD Guideline Sample"/>
+        <StdVariableRef id="V_SerialNumber"/>
+        <StdVariableRef id="V_HardwareRevision"/>
+        <StdVariableRef id="V_FirmwareRevision"/>
+        <StdVariableRef id="V_ApplicationSpecificTag" defaultValue="***" excludedFromDataStorage="false"/>
+        <StdVariableRef id="V_DeviceStatus"/>
+        <StdVariableRef id="V_DetailedDeviceStatus" fixedLengthRestriction="1"/>
+        <StdVariableRef id="V_ProcessDataInput"/>
+        <StdVariableRef id="V_ProcessDataOutput"/>
+        <Variable id="V_CP_FunctionTag" index="25" accessRights="rw" defaultValue="***" excludedFromDataStorage="false">
+          <Datatype xsi:type="StringT" fixedLength="32" encoding="UTF-8"/>
+          <Name textId="TN_V_CP_FunctionTag"/>
+          <Description textId="TD_V_CP_FunctionTag"/>
+        </Variable>
+        <Variable id="V_CP_LocationTag" index="26" accessRights="rw" defaultValue="***" excludedFromDataStorage="false">
+          <Datatype xsi:type="StringT" fixedLength="32" encoding="UTF-8"/>
+          <Name textId="TN_V_CP_LocationTag"/>
+          <Description textId="TD_V_CP_LocationTag"/>
+        </Variable>
+        <Variable index="64" id="V_X_ParamChannel1" accessRights="rw" excludedFromDataStorage="false">
+          <DatatypeRef datatypeId="D_X_ParamChannel"/>
+          <RecordItemInfo subindex="1" defaultValue="5000"/>
+          <RecordItemInfo subindex="2" defaultValue="500"/>
+          <Name textId="TN_V_X_ParamChannel1"/>
+          <Description textId="TD_V_X_ParamChannel1"/>
+        </Variable>
+        <Variable index="65" id="V_X_ParamChannel2" accessRights="rw" excludedFromDataStorage="false">
+          <DatatypeRef datatypeId="D_X_ParamChannel"/>
+          <RecordItemInfo subindex="1" defaultValue="-2500"/>
+          <RecordItemInfo subindex="2" defaultValue="0"/>
+          <Name textId="TN_V_X_ParamChannel2"/>
+          <Description textId="TD_V_X_ParamChannel2"/>
+        </Variable>
+      </VariableCollection>
+      <ProcessDataCollection>
+        <ProcessData id="P_ProcessData">
+          <ProcessDataIn id="PI_PDin" bitLength="32">
+            <Datatype xsi:type="IntegerT" bitLength="32"/>
+            <Name textId="TN_PI_PDin"/>
+          </ProcessDataIn>
+          <ProcessDataOut id="PO_PDout" bitLength="16">
+            <Datatype xsi:type="IntegerT" bitLength="16"/>
+            <Name textId="TN_PO_PDout"/>
+          </ProcessDataOut>
+        </ProcessData>
+      </ProcessDataCollection>
+      <ErrorTypeCollection>
+        <!-- 0x8011 IDX_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="17"/>
+        <!-- 0x8012 SUBIDX_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="18"/>
+        <!-- 0x8020 SERV_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="32"/>
+        <!-- 0x8021 SERV_NOTAVAIL_LOCCTRL -->
+        <StdErrorTypeRef code="128" additionalCode="33"/>
+        <!-- 0x8022 SERV_NOTAVAIL_DEVCTRL -->
+        <StdErrorTypeRef code="128" additionalCode="34"/>
+        <!-- 0x8023 IDX_NOT_ACCESSIBLE -->
+        <StdErrorTypeRef code="128" additionalCode="35"/>
+        <!-- 0x8030 PAR_VALOUTOFRNG -->
+        <StdErrorTypeRef code="128" additionalCode="48"/>
+        <!-- 0x8031 PAR_VALGTLIM -->
+        <StdErrorTypeRef code="128" additionalCode="49"/>
+        <!-- 0x8032 PAR_VALLTLIM -->
+        <StdErrorTypeRef code="128" additionalCode="50"/>
+        <!-- 0x8033 VAL_LENOVRRUN -->
+        <StdErrorTypeRef code="128" additionalCode="51"/>
+        <!-- 0x8034 VAL_LENUNDRUN -->
+        <StdErrorTypeRef code="128" additionalCode="52"/>
+        <!-- 0x8035 FUNC_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="53"/>
+        <!-- 0x8036 FUNC_UNAVAILTEMP -->
+        <StdErrorTypeRef code="128" additionalCode="54"/>
+        <!-- 0x8040 PAR_SETINVALID -->
+        <StdErrorTypeRef code="128" additionalCode="64"/>
+        <!--0x8041  PAR_SETINCONSIST -->
+        <StdErrorTypeRef code="128" additionalCode="65"/>
+        <!--0x8082  APP_DEVNOTRDY -->
+        <StdErrorTypeRef code="128" additionalCode="130"/>
+      </ErrorTypeCollection>
+      <EventCollection>
+        <!-- 0x5010 Error: Component malfunction – Repair or exchange  -->
+        <StdEventRef code="20496"/>
+      </EventCollection>
+      <UserInterface>
+        <MenuCollection>
+          <Menu id="M_OR_Ident">
+            <VariableRef variableId="V_VendorName"/>
+            <VariableRef variableId="V_VendorText"/>
+            <VariableRef variableId="V_ProductName"/>
+            <VariableRef variableId="V_ProductText"/>
+            <VariableRef variableId="V_ProductID"/>
+            <VariableRef variableId="V_SerialNumber"/>
+            <VariableRef variableId="V_HardwareRevision"/>
+            <VariableRef variableId="V_FirmwareRevision"/>
+            <VariableRef variableId="V_ApplicationSpecificTag" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_CP_FunctionTag" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_CP_LocationTag" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_MSR_Ident">
+            <VariableRef variableId="V_VendorName"/>
+            <VariableRef variableId="V_VendorText"/>
+            <VariableRef variableId="V_ProductName"/>
+            <VariableRef variableId="V_ProductText"/>
+            <VariableRef variableId="V_ProductID"/>
+            <VariableRef variableId="V_SerialNumber"/>
+            <VariableRef variableId="V_HardwareRevision"/>
+            <VariableRef variableId="V_FirmwareRevision"/>
+            <VariableRef variableId="V_ApplicationSpecificTag"/>
+            <VariableRef variableId="V_CP_FunctionTag"/>
+            <VariableRef variableId="V_CP_LocationTag"/>
+          </Menu>
+          <Menu id="M_OR_Param">
+            <MenuRef menuId="M_OR_X_Param_DeviceParam"/>
+          </Menu>
+          <Menu id="M_MSR_Param">
+            <MenuRef menuId="M_MSR_X_Param_DeviceParam"/>
+            <MenuRef menuId="M_MSR_CP_Param_GeneralSettings"/>
+          </Menu>
+          <Menu id="M_OR_X_Param_DeviceParam">
+            <Name textId="TN_M_X_Param_DeviceParam"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="2" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="2" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_MSR_X_Param_DeviceParam">
+            <Name textId="TN_M_X_Param_DeviceParam"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="2"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="2"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="160">
+                <Description textId="TD_X_SystemCommand_Teachin"/>
+                <ActionStartedMessage textId="TD_X_SystemCommand_ActionTeachin"/>
+              </Button>
+            </VariableRef>
+          </Menu>
+          <Menu id="M_MSR_CP_Param_GeneralSettings">
+            <Name textId="TN_M_CP_Param_GeneralSettings"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="129">
+                <Description textId="TD_STD_SystemCommand_ApplicationReset"/>
+              </Button>
+            </VariableRef>
+          </Menu>
+          <Menu id="M_OMSR_Observe">
+            <VariableRef variableId="V_ProcessDataInput"/>
+            <VariableRef variableId="V_ProcessDataOutput"/>
+          </Menu>
+          <Menu id="M_OR_Diag">
+            <MenuRef menuId="M_OMSR_CP_Diag_DeviceStatusInfo"/>
+          </Menu>
+          <Menu id="M_MSR_Diag">
+            <MenuRef menuId="M_OMSR_CP_Diag_DeviceStatusInfo"/>
+            <MenuRef menuId="M_MSR_CP_Diag_ServiceFunctions"/>
+          </Menu>
+          <Menu id="M_OMSR_CP_Diag_DeviceStatusInfo">
+            <Name textId="TN_M_CP_Diag_DeviceStatusInfo"/>
+            <VariableRef variableId="V_DeviceStatus"/>
+            <VariableRef variableId="V_DetailedDeviceStatus"/>
+          </Menu>
+          <Menu id="M_MSR_CP_Diag_ServiceFunctions">
+            <Name textId="TN_M_CP_Diag_ServiceFunctions"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="131">
+                <Description textId="TD_STD_SystemCommand_BackToBox"/>
+              </Button>
+            </VariableRef>
+          </Menu>
+        </MenuCollection>
+        <ObserverRoleMenuSet>
+          <IdentificationMenu menuId="M_OR_Ident"/>
+          <ParameterMenu menuId="M_OR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_OR_Diag"/>
+        </ObserverRoleMenuSet>
+        <MaintenanceRoleMenuSet>
+          <IdentificationMenu menuId="M_MSR_Ident"/>
+          <ParameterMenu menuId="M_MSR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_MSR_Diag"/>
+        </MaintenanceRoleMenuSet>
+        <SpecialistRoleMenuSet>
+          <IdentificationMenu menuId="M_MSR_Ident"/>
+          <ParameterMenu menuId="M_MSR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_MSR_Diag"/>
+        </SpecialistRoleMenuSet>
+      </UserInterface>
+    </DeviceFunction>
+  </ProfileBody>
+  <CommNetworkProfile xsi:type="IOLinkCommNetworkProfileT" iolinkRevision="V1.1">
+    <TransportLayers>
+      <PhysicalLayer bitrate="COM2" minCycleTime="2300" sioSupported="true" mSequenceCapability="27">
+        <Connection xsi:type="M12-4ConnectionT">
+          <ProductRef productId="ioddsample14"/>
+          <Wire1 function="L+"/>
+          <Wire2 function="NC"/>
+          <Wire3 function="L-"/>
+          <Wire4 function="C/Q"/>
+        </Connection>
+      </PhysicalLayer>
+    </TransportLayers>
+    <Test>
+      <Config1 index="64" testValue="0x11,0x22,0x33,0x44"/>
+      <Config2 index="256" testValue="0x01,0x02,0x03,0x04"/>
+      <Config3 index="24" testValue="0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20"/>
+      <Config7 index="254">
+        <EventTrigger appearValue="01" disappearValue="02"/>
+        <EventTrigger appearValue="03" disappearValue="04"/>
+      </Config7>
+    </Test>
+  </CommNetworkProfile>
+  <ExternalTextCollection>
+    <PrimaryLanguage xml:lang="en">
+      <Text id="T_VendorText" value="USE - Universal, Smart, Easy"/>
+      <Text id="T_VendorUrl" value="www.io-link.com"/>
+      <Text id="T_DeviceName" value="System Command Device"/>
+      <Text id="T_DeviceFamily" value="IODD Guideline Sample"/>
+      <Text id="TN_ProductName" value="System Command Device"/>
+      <Text id="TD_ProductDescr" value="IO-Link Device with a vendor specific system command."/>
+      <Text id="TN_PI_PDin" value="PD Input"/>
+      <Text id="TN_PO_PDout" value="PD Output"/>
+      <Text id="TD_STD_SystemCommand_ApplicationReset" value="The parameter of the technology-specific application are set to default values. Identification parameter remain unchanged. An upload to the data storage of the master will be executed, if activated in the port configuration of the master."/>
+      <Text id="TD_STD_SystemCommand_BackToBox" value="The parameter of the device are set to factory default values and communication will be inhibited until the next power cycle. Note: Directly detach the device from the master port!"/>
+      <Text id="TN_V_CP_FunctionTag" value="Function Tag"/>
+      <Text id="TD_V_CP_FunctionTag" value="Possibility to mark a device with function-specific information."/>
+      <Text id="TN_V_CP_LocationTag" value="Location Tag"/>
+      <Text id="TD_V_CP_LocationTag" value="Possibility to mark a device with location-specific information."/>
+      <Text id="TN_V_X_ParamChannel1" value="Param Chan 1"/>
+      <Text id="TD_V_X_ParamChannel1" value="Defines the adjustment settings for the parameterization channel 1."/>
+      <Text id="TN_V_X_ParamChannel2" value="Param Chan 2"/>
+      <Text id="TD_V_X_ParamChannel2" value="Defines the adjustment settings for the parameterization channel 2."/>
+      <Text id="TN_V_X_ParamChannel_AdjustValue1" value="Adjustment Value 1"/>
+      <Text id="TD_V_X_ParamChannel_AdjustValue1" value="Defines the first value of the adjustment channel."/>
+      <Text id="TN_V_X_ParamChannel_AdjustValue2" value="Adjustment Value 2"/>
+      <Text id="TD_V_X_ParamChannel_AdjustValue2" value="Defines the second value of the adjustment channel."/>
+      <Text id="TN_SV_X_AdjustValue_disabled" value="Disabled"/>
+      <Text id="TN_X_SystemCommand_Teachin" value="Teach In"/>
+      <Text id="TD_X_SystemCommand_Teachin" value="The values of the parameter 'Param Chan1' will be adjusted upon execution of this command."/>
+      <Text id="TD_X_SystemCommand_ActionTeachin" value="The values of the parameter 'Param Chan1' have been set to new adjustment values. Upload the device parameter."/>
+      <Text id="TN_M_CP_Diag_DeviceStatusInfo" value="Device Status Information"/>
+      <Text id="TN_M_CP_Diag_ServiceFunctions" value="Service Functions"/>
+      <Text id="TN_M_X_Param_DeviceParam" value="Device Parameterization"/>
+      <Text id="TN_M_CP_Param_GeneralSettings" value="General Settings"/>
+    </PrimaryLanguage>
+  </ExternalTextCollection>
+  <Stamp crc="2532718283"><Checker name="IODD-Checker V1.1.7" version="V1.1.7.0"/></Stamp>
+</IODevice>

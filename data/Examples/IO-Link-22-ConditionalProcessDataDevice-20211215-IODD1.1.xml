@@ -1,0 +1,680 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<IODevice xmlns="http://www.io-link.com/IODD/2010/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.io-link.com/IODD/2010/10 IODD1.1.xsd">
+  <DocumentInfo version="V1.00.000" releaseDate="2021-12-15" copyright="Copyright IO-Link Community 2021"/>
+  <ProfileHeader>
+    <ProfileIdentification>IO Device Profile</ProfileIdentification>
+    <ProfileRevision>1.1</ProfileRevision>
+    <ProfileName>Device Profile for IO Devices</ProfileName>
+    <ProfileSource>IO-Link Consortium</ProfileSource>
+    <ProfileClassID>Device</ProfileClassID>
+    <ISO15745Reference>
+      <ISO15745Part>1</ISO15745Part>
+      <ISO15745Edition>1</ISO15745Edition>
+      <ProfileTechnology>IODD</ProfileTechnology>
+    </ISO15745Reference>
+  </ProfileHeader>
+  <ProfileBody>
+    <DeviceIdentity vendorId="65535" deviceId="22" vendorName="IO-Link Community">
+      <VendorText textId="T_VendorText"/>
+      <VendorUrl textId="T_VendorUrl"/>
+      <VendorLogo name="IO-Link-logo.png"/>
+      <DeviceName textId="T_DeviceName"/>
+      <DeviceFamily textId="T_DeviceFamily"/>
+      <DeviceVariantCollection>
+        <DeviceVariant productId="ioddsample22" deviceSymbol="IO-Link-Device-pic.png" deviceIcon="IO-Link-Device-icon.png">
+          <Name textId="TN_ProductName"/>
+          <Description textId="TD_ProductDescr"/>
+        </DeviceVariant>
+      </DeviceVariantCollection>
+    </DeviceIdentity>
+    <DeviceFunction>
+      <Features blockParameter="true" dataStorage="true" profileCharacteristic="16384">
+        <SupportedAccessLocks parameter="false" dataStorage="false" localParameterization="false" localUserInterface="false"/>
+      </Features>
+      <DatatypeCollection>
+        <Datatype id="D_X_AdjustValue1" xsi:type="IntegerT" bitLength="16">
+          <ValueRange lowerValue="-10000" upperValue="10000"/>
+        </Datatype>
+        <Datatype id="D_X_AdjustValue2" xsi:type="IntegerT" bitLength="16">
+          <ValueRange lowerValue="1" upperValue="1000"/>
+          <SingleValue value="0">
+            <Name textId="TN_SV_X_AdjustValue_disabled"/>
+          </SingleValue>
+        </Datatype>
+        <Datatype id="D_X_ParamChannel" xsi:type="RecordT" bitLength="32">
+          <RecordItem subindex="1" bitOffset="16">
+            <DatatypeRef datatypeId="D_X_AdjustValue1"/>
+            <Name textId="TN_V_X_ParamChannel_AdjustValue1"/>
+            <Description textId="TD_V_X_ParamChannel_AdjustValue1"/>
+          </RecordItem>
+          <RecordItem subindex="2" bitOffset="0">
+            <DatatypeRef datatypeId="D_X_AdjustValue2"/>
+            <Name textId="TN_V_X_ParamChannel_AdjustValue2"/>
+            <Description textId="TD_V_X_ParamChannel_AdjustValue2"/>
+          </RecordItem>
+        </Datatype>
+        <Datatype id="D_X_PDin_Status_LowHigh" xsi:type="BooleanT">
+          <SingleValue value="false">
+            <Name textId="TN_SV_X_PDin_Status_low"/>
+          </SingleValue>
+          <SingleValue value="true">
+            <Name textId="TN_SV_X_PDin_Status_high"/>
+          </SingleValue>
+        </Datatype>
+        <Datatype id="D_X_PDout_Control_IdleExec" xsi:type="BooleanT">
+          <SingleValue value="false">
+            <Name textId="TN_SV_X_PDout_Control_idle"/>
+          </SingleValue>
+          <SingleValue value="true">
+            <Name textId="TN_SV_X_PDout_Control_exec"/>
+          </SingleValue>
+        </Datatype>
+        <Datatype id="D_X_PDout_Control_DisEnabled" xsi:type="BooleanT">
+          <SingleValue value="false">
+            <Name textId="TN_SV_X_PDout_Control_disabled"/>
+          </SingleValue>
+          <SingleValue value="true">
+            <Name textId="TN_SV_X_PDout_Control_enabled"/>
+          </SingleValue>
+        </Datatype>
+      </DatatypeCollection>
+      <VariableCollection>
+        <StdVariableRef id="V_DirectParameters_1"/>
+        <StdVariableRef id="V_SystemCommand">
+          <StdSingleValueRef value="129"/>
+          <StdSingleValueRef value="131"/>
+          <SingleValue value="160">
+            <Name textId="TN_X_SystemCommand_Teachin"/>
+          </SingleValue>
+        </StdVariableRef>
+        <StdVariableRef id="V_VendorName" defaultValue="IO-Link Community"/>
+        <StdVariableRef id="V_VendorText"/>
+        <StdVariableRef id="V_ProductName" defaultValue="Conditional Process Data Device"/>
+        <StdVariableRef id="V_ProductID" defaultValue="ioddsample22"/>
+        <StdVariableRef id="V_ProductText" defaultValue="IODD Guideline Sample"/>
+        <StdVariableRef id="V_SerialNumber"/>
+        <StdVariableRef id="V_HardwareRevision"/>
+        <StdVariableRef id="V_FirmwareRevision"/>
+        <StdVariableRef id="V_ApplicationSpecificTag" defaultValue="***" excludedFromDataStorage="false"/>
+        <StdVariableRef id="V_DeviceStatus"/>
+        <StdVariableRef id="V_DetailedDeviceStatus" fixedLengthRestriction="1"/>
+        <StdVariableRef id="V_ProcessDataInput"/>
+        <StdVariableRef id="V_ProcessDataOutput"/>
+        <Variable id="V_CP_FunctionTag" index="25" accessRights="rw" defaultValue="***" excludedFromDataStorage="false">
+          <Datatype xsi:type="StringT" fixedLength="32" encoding="UTF-8"/>
+          <Name textId="TN_V_CP_FunctionTag"/>
+          <Description textId="TD_V_CP_FunctionTag"/>
+        </Variable>
+        <Variable id="V_CP_LocationTag" index="26" accessRights="rw" defaultValue="***" excludedFromDataStorage="false">
+          <Datatype xsi:type="StringT" fixedLength="32" encoding="UTF-8"/>
+          <Name textId="TN_V_CP_LocationTag"/>
+          <Description textId="TD_V_CP_LocationTag"/>
+        </Variable>
+        <Variable index="64" id="V_X_ParamChannel1" accessRights="rw" excludedFromDataStorage="false">
+          <DatatypeRef datatypeId="D_X_ParamChannel"/>
+          <RecordItemInfo subindex="1" defaultValue="5000"/>
+          <RecordItemInfo subindex="2" defaultValue="500"/>
+          <Name textId="TN_V_X_ParamChannel1"/>
+          <Description textId="TD_V_X_ParamChannel1"/>
+        </Variable>
+        <Variable index="65" id="V_X_ParamChannel2" accessRights="rw" excludedFromDataStorage="false">
+          <DatatypeRef datatypeId="D_X_ParamChannel"/>
+          <RecordItemInfo subindex="1" defaultValue="-2500"/>
+          <RecordItemInfo subindex="2" defaultValue="0"/>
+          <Name textId="TN_V_X_ParamChannel2"/>
+          <Description textId="TD_V_X_ParamChannel2"/>
+        </Variable>
+        <Variable index="66" id="V_X_PDSelect" accessRights="rw" defaultValue="0" excludedFromDataStorage="false">
+          <Datatype xsi:type="UIntegerT" bitLength="8">
+            <SingleValue value="0">
+              <Name textId="TN_SV_X_PDSelect_set0"/>
+            </SingleValue>
+            <SingleValue value="1">
+              <Name textId="TN_SV_X_PDSelect_set1"/>
+            </SingleValue>
+            <SingleValue value="2">
+              <Name textId="TN_SV_X_PDSelect_set2"/>
+            </SingleValue>
+          </Datatype>
+          <Name textId="TN_V_X_PDSelect"/>
+          <Description textId="TD_V_X_PDSelect"/>
+        </Variable>
+        <Variable index="80" id="V_X_TeachinSelect" accessRights="rw" defaultValue="0" excludedFromDataStorage="true">
+          <Datatype xsi:type="UIntegerT" bitLength="8">
+            <SingleValue value="0">
+              <Name textId="TN_SV_X_Teachin_nochannnel"/>
+            </SingleValue>
+            <SingleValue value="1">
+              <Name textId="TN_SV_X_Teachin_channnel1"/>
+            </SingleValue>
+            <SingleValue value="2">
+              <Name textId="TN_SV_X_Teachin_channnel2"/>
+            </SingleValue>
+          </Datatype>
+          <Name textId="TN_V_X_TeachinSelect"/>
+          <Description textId="TD_V_X_TeachinSelect"/>
+        </Variable>
+        <Variable index="82" id="V_X_TeachinStatus" accessRights="ro" defaultValue="0" dynamic="true">
+          <Datatype xsi:type="UIntegerT" bitLength="8">
+            <SingleValue value="0">
+              <Name textId="TN_SV_X_Teachin_idle"/>
+            </SingleValue>
+            <SingleValue value="1">
+              <Name textId="TN_SV_X_Teachin_ok"/>
+            </SingleValue>
+            <SingleValue value="2">
+              <Name textId="TN_SV_X_Teachin_error"/>
+            </SingleValue>
+          </Datatype>
+          <Name textId="TN_V_X_TeachinStatus"/>
+          <Description textId="TD_V_X_TeachinStatus"/>
+        </Variable>
+        <Variable index="100" id="V_X_Uptime" accessRights="ro" defaultValue="0" dynamic="true">
+          <Datatype xsi:type="UIntegerT" bitLength="32"/>
+          <Name textId="TN_V_X_Uptime"/>
+          <Description textId="TD_V_X_Uptime"/>
+        </Variable>
+        <Variable index="101" id="V_X_OperatingHours" accessRights="ro" defaultValue="0" dynamic="true">
+          <Datatype xsi:type="UIntegerT" bitLength="32"/>
+          <Name textId="TN_V_X_OperatingHours"/>
+          <Description textId="TD_V_X_OperatingHours"/>
+        </Variable>
+        <Variable index="102" id="V_X_PowerCycles" accessRights="ro" defaultValue="0" dynamic="true">
+          <Datatype xsi:type="UIntegerT" bitLength="32"/>
+          <Name textId="TN_V_X_PowerCycles"/>
+          <Description textId="TD_V_X_PowerCycles"/>
+        </Variable>
+        <Variable index="103" id="V_X_ActuatorCycles" accessRights="ro" defaultValue="0" dynamic="true">
+          <Datatype xsi:type="UIntegerT" bitLength="32"/>
+          <Name textId="TN_V_X_ActuatorCycles"/>
+          <Description textId="TD_V_X_ActuatorCycles"/>
+        </Variable>
+      </VariableCollection>
+      <ProcessDataCollection>
+        <ProcessData id="P_ProcessData0">
+          <Condition variableId="V_X_PDSelect" value="0"/>
+          <ProcessDataIn id="PI_PDin0" bitLength="32">
+            <Datatype xsi:type="RecordT" bitLength="32" subindexAccessSupported="false">
+              <RecordItem subindex="1" bitOffset="16">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                  <ValueRange lowerValue="-10000" upperValue="10000"/>
+                </SimpleDatatype>
+                <Name textId="TN_PI_X_PDin_DetectionValue"/>
+                <Description textId="TD_PI_X_PDin_DetectionValue"/>
+              </RecordItem>
+              <RecordItem subindex="2" bitOffset="8">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="8">
+                  <ValueRange lowerValue="-50" upperValue="125"/>
+                </SimpleDatatype>
+                <Name textId="TN_PI_X_PDin_TemperatureValue"/>
+                <Description textId="TD_PI_X_PDin_TemperatureValue"/>
+              </RecordItem>
+            </Datatype>
+            <Name textId="TN_PI_PDin0"/>
+          </ProcessDataIn>
+          <ProcessDataOut id="PO_PDout0" bitLength="16">
+            <Datatype xsi:type="RecordT" bitLength="16" subindexAccessSupported="false">
+              <RecordItem subindex="1" bitOffset="8">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="8">
+                  <ValueRange lowerValue="-100" upperValue="100"/>
+                </SimpleDatatype>
+                <Name textId="TN_PO_X_PDout_ControlValue"/>
+                <Description textId="TD_PO_X_PDout_ControlValue"/>
+              </RecordItem>
+            </Datatype>
+            <Name textId="TN_PO_PDout0"/>
+          </ProcessDataOut>
+        </ProcessData>
+        <ProcessData id="P_ProcessData1">
+          <Condition variableId="V_X_PDSelect" value="1"/>
+          <ProcessDataIn id="PI_PDin1" bitLength="32">
+            <Datatype xsi:type="RecordT" bitLength="32" subindexAccessSupported="false">
+              <RecordItem subindex="1" bitOffset="16">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                  <ValueRange lowerValue="-10000" upperValue="10000"/>
+                </SimpleDatatype>
+                <Name textId="TN_PI_X_PDin_DetectionValue"/>
+                <Description textId="TD_PI_X_PDin_DetectionValue"/>
+              </RecordItem>
+              <RecordItem subindex="2" bitOffset="8">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="8">
+                  <ValueRange lowerValue="-50" upperValue="125"/>
+                </SimpleDatatype>
+                <Name textId="TN_PI_X_PDin_TemperatureValue"/>
+                <Description textId="TD_PI_X_PDin_TemperatureValue"/>
+              </RecordItem>
+              <RecordItem subindex="3" bitOffset="0">
+                <DatatypeRef datatypeId="D_X_PDin_Status_LowHigh"/>
+                <Name textId="TN_PI_X_PDin_StatusSig1"/>
+                <Description textId="TD_PI_X_PDin_StatusSig1"/>
+              </RecordItem>
+              <RecordItem subindex="4" bitOffset="1">
+                <DatatypeRef datatypeId="D_X_PDin_Status_LowHigh"/>
+                <Name textId="TN_PI_X_PDin_StatusSig2"/>
+                <Description textId="TD_PI_X_PDin_StatusSig2"/>
+              </RecordItem>
+            </Datatype>
+            <Name textId="TN_PI_PDin1"/>
+          </ProcessDataIn>
+          <ProcessDataOut id="PO_PDout1" bitLength="16">
+            <Datatype xsi:type="RecordT" bitLength="16" subindexAccessSupported="false">
+              <RecordItem subindex="1" bitOffset="8">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="8">
+                  <ValueRange lowerValue="-100" upperValue="100"/>
+                </SimpleDatatype>
+                <Name textId="TN_PO_X_PDout_ControlValue"/>
+                <Description textId="TD_PO_X_PDout_ControlValue"/>
+              </RecordItem>
+            </Datatype>
+            <Name textId="TN_PO_PDout1"/>
+          </ProcessDataOut>
+        </ProcessData>
+        <ProcessData id="P_ProcessData2">
+          <Condition variableId="V_X_PDSelect" value="2"/>
+          <ProcessDataIn id="PI_PDin2" bitLength="32">
+            <Datatype xsi:type="RecordT" bitLength="32" subindexAccessSupported="false">
+              <RecordItem subindex="1" bitOffset="16">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                  <ValueRange lowerValue="-10000" upperValue="10000"/>
+                </SimpleDatatype>
+                <Name textId="TN_PI_X_PDin_DetectionValue"/>
+                <Description textId="TD_PI_X_PDin_DetectionValue"/>
+              </RecordItem>
+              <RecordItem subindex="2" bitOffset="8">
+                <SimpleDatatype xsi:type="UIntegerT" bitLength="8">
+                  <ValueRange lowerValue="0" upperValue="250"/>
+                </SimpleDatatype>
+                <Name textId="TN_V_PD_CounterValue"/>
+                <Description textId="TD_V_PD_CounterValue"/>
+              </RecordItem>
+              <RecordItem subindex="3" bitOffset="0">
+                <DatatypeRef datatypeId="D_X_PDin_Status_LowHigh"/>
+                <Name textId="TN_PI_X_PDin_StatusSig1"/>
+                <Description textId="TD_PI_X_PDin_StatusSig1"/>
+              </RecordItem>
+              <RecordItem subindex="4" bitOffset="1">
+                <DatatypeRef datatypeId="D_X_PDin_Status_LowHigh"/>
+                <Name textId="TN_PI_X_PDin_StatusSig2"/>
+                <Description textId="TD_PI_X_PDin_StatusSig2"/>
+              </RecordItem>
+            </Datatype>
+            <Name textId="TN_PI_PDin2"/>
+          </ProcessDataIn>
+          <ProcessDataOut id="PO_PDout2" bitLength="16">
+            <Datatype xsi:type="RecordT" bitLength="16" subindexAccessSupported="false">
+              <RecordItem subindex="1" bitOffset="8">
+                <SimpleDatatype xsi:type="IntegerT" bitLength="8">
+                  <ValueRange lowerValue="-100" upperValue="100"/>
+                </SimpleDatatype>
+                <Name textId="TN_PO_X_PDout_ControlValue"/>
+                <Description textId="TD_PO_X_PDout_ControlValue"/>
+              </RecordItem>
+              <RecordItem subindex="2" bitOffset="0">
+                <DatatypeRef datatypeId="D_X_PDout_Control_IdleExec"/>
+                <Name textId="TN_PO_X_PDout_ControlFunction"/>
+                <Description textId="TD_PO_X_PDout_ControlFunction"/>
+              </RecordItem>
+              <RecordItem subindex="3" bitOffset="1">
+                <DatatypeRef datatypeId="D_X_PDout_Control_DisEnabled"/>
+                <Name textId="TN_PO_X_PDout_ControlSig"/>
+                <Description textId="TD_PO_X_PDout_ControlSig"/>
+              </RecordItem>
+            </Datatype>
+            <Name textId="TN_PO_PDout2"/>
+          </ProcessDataOut>
+        </ProcessData>
+      </ProcessDataCollection>
+      <ErrorTypeCollection>
+        <!-- 0x8011 IDX_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="17"/>
+        <!-- 0x8012 SUBIDX_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="18"/>
+        <!-- 0x8020 SERV_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="32"/>
+        <!-- 0x8021 SERV_NOTAVAIL_LOCCTRL -->
+        <StdErrorTypeRef code="128" additionalCode="33"/>
+        <!-- 0x8022 SERV_NOTAVAIL_DEVCTRL -->
+        <StdErrorTypeRef code="128" additionalCode="34"/>
+        <!-- 0x8023 IDX_NOT_ACCESSIBLE -->
+        <StdErrorTypeRef code="128" additionalCode="35"/>
+        <!-- 0x8030 PAR_VALOUTOFRNG -->
+        <StdErrorTypeRef code="128" additionalCode="48"/>
+        <!-- 0x8031 PAR_VALGTLIM -->
+        <StdErrorTypeRef code="128" additionalCode="49"/>
+        <!-- 0x8032 PAR_VALLTLIM -->
+        <StdErrorTypeRef code="128" additionalCode="50"/>
+        <!-- 0x8033 VAL_LENOVRRUN -->
+        <StdErrorTypeRef code="128" additionalCode="51"/>
+        <!-- 0x8034 VAL_LENUNDRUN -->
+        <StdErrorTypeRef code="128" additionalCode="52"/>
+        <!-- 0x8035 FUNC_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="53"/>
+        <!-- 0x8036 FUNC_UNAVAILTEMP -->
+        <StdErrorTypeRef code="128" additionalCode="54"/>
+        <!-- 0x8040 PAR_SETINVALID -->
+        <StdErrorTypeRef code="128" additionalCode="64"/>
+        <!--0x8041 PAR_SETINCONSIST -->
+        <StdErrorTypeRef code="128" additionalCode="65"/>
+        <!--0x8082 APP_DEVNOTRDY -->
+        <StdErrorTypeRef code="128" additionalCode="130"/>
+      </ErrorTypeCollection>
+      <EventCollection>
+        <!-- 0x5010 Error: Component malfunction – Repair or exchange -->
+        <StdEventRef code="20496"/>
+      </EventCollection>
+      <UserInterface>
+        <ProcessDataRefCollection>
+          <ProcessDataRef processDataId="PI_PDin0">
+            <ProcessDataRecordItemInfo subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <ProcessDataRecordItemInfo subindex="2" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1001"/>
+          </ProcessDataRef>
+          <ProcessDataRef processDataId="PO_PDout0">
+            <ProcessDataRecordItemInfo subindex="1" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1342"/>
+          </ProcessDataRef>
+          <ProcessDataRef processDataId="PI_PDin1">
+            <ProcessDataRecordItemInfo subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <ProcessDataRecordItemInfo subindex="3"/>
+            <ProcessDataRecordItemInfo subindex="4"/>
+            <ProcessDataRecordItemInfo subindex="2" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1001"/>
+          </ProcessDataRef>
+          <ProcessDataRef processDataId="PO_PDout1">
+            <ProcessDataRecordItemInfo subindex="1" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1342"/>
+          </ProcessDataRef>
+          <ProcessDataRef processDataId="PI_PDin2">
+            <ProcessDataRecordItemInfo subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <ProcessDataRecordItemInfo subindex="3"/>
+            <ProcessDataRecordItemInfo subindex="4"/>
+            <ProcessDataRecordItemInfo subindex="2"/>
+          </ProcessDataRef>
+          <ProcessDataRef processDataId="PO_PDout2">
+            <ProcessDataRecordItemInfo subindex="1" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1342"/>
+            <ProcessDataRecordItemInfo subindex="3"/>
+            <ProcessDataRecordItemInfo subindex="2"/>
+          </ProcessDataRef>
+        </ProcessDataRefCollection>
+        <MenuCollection>
+          <Menu id="M_OR_Ident">
+            <MenuRef menuId="M_X_Ident_Device"/>
+            <MenuRef menuId="M_OR_Ident_Application"/>
+          </Menu>
+          <Menu id="M_MSR_Ident">
+            <MenuRef menuId="M_X_Ident_Device"/>
+            <MenuRef menuId="M_MSR_Ident_Application"/>
+            <MenuRef menuId="M_X_Ident_Revision"/>
+          </Menu>
+          <Menu id="M_X_Ident_Device">
+            <Name textId="TN_M_X_Ident_Device"/>
+            <VariableRef variableId="V_VendorName"/>
+            <VariableRef variableId="V_VendorText"/>
+            <VariableRef variableId="V_ProductName"/>
+            <VariableRef variableId="V_ProductText"/>
+            <VariableRef variableId="V_ProductID"/>
+            <VariableRef variableId="V_SerialNumber"/>
+          </Menu>
+          <Menu id="M_OR_Ident_Application">
+            <Name textId="TN_M_X_Ident_Application"/>
+            <VariableRef variableId="V_ApplicationSpecificTag" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_CP_FunctionTag" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_CP_LocationTag" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_MSR_Ident_Application">
+            <Name textId="TN_M_X_Ident_Application"/>
+            <VariableRef variableId="V_ApplicationSpecificTag"/>
+            <VariableRef variableId="V_CP_FunctionTag"/>
+            <VariableRef variableId="V_CP_LocationTag"/>
+          </Menu>
+          <Menu id="M_X_Ident_Revision">
+            <Name textId="TN_M_X_Ident_Revision"/>
+            <VariableRef variableId="V_HardwareRevision"/>
+            <VariableRef variableId="V_FirmwareRevision"/>
+          </Menu>
+          <Menu id="M_OR_Param">
+            <MenuRef menuId="M_OR_X_Param_DeviceParam"/>
+          </Menu>
+          <Menu id="M_MSR_Param">
+            <MenuRef menuId="M_MSR_X_Param_DeviceParam"/>
+            <MenuRef menuId="M_MSR_X_Param_Teachin"/>
+            <MenuRef menuId="M_MSR_CP_Param_GeneralSettings"/>
+          </Menu>
+          <Menu id="M_OR_X_Param_DeviceParam">
+            <Name textId="TN_M_X_Param_DeviceParam"/>
+            <MenuRef menuId="M_OR_X_Param_DeviceParam_Chan1"/>
+            <MenuRef menuId="M_OR_X_Param_DeviceParam_Chan2"/>
+          </Menu>
+          <Menu id="M_MSR_X_Param_DeviceParam">
+            <Name textId="TN_M_X_Param_DeviceParam"/>
+            <MenuRef menuId="M_MSR_X_Param_DeviceParam_Chan1"/>
+            <MenuRef menuId="M_MSR_X_Param_DeviceParam_Chan2"/>
+          </Menu>
+          <Menu id="M_OR_X_Param_DeviceParam_Chan1">
+            <Name textId="TN_M_X_Param_DeviceParam_Chan1"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="2" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_OR_X_Param_DeviceParam_Chan2">
+            <Name textId="TN_M_X_Param_DeviceParam_Chan2"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="2" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_MSR_X_Param_DeviceParam_Chan1">
+            <Name textId="TN_M_X_Param_DeviceParam_Chan1"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamChannel1" subindex="2"/>
+          </Menu>
+          <Menu id="M_MSR_X_Param_DeviceParam_Chan2">
+            <Name textId="TN_M_X_Param_DeviceParam_Chan2"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamChannel2" subindex="2"/>
+          </Menu>
+          <Menu id="M_MSR_X_Param_Teachin">
+            <Name textId="TN_M_X_Param_Teachin"/>
+            <VariableRef variableId="V_X_TeachinSelect"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="160">
+                <Description textId="TD_X_SystemCommand_Teachin"/>
+                <ActionStartedMessage textId="TD_X_SystemCommand_ActionTeachin"/>
+              </Button>
+            </VariableRef>
+            <VariableRef variableId="V_X_TeachinStatus"/>
+          </Menu>
+          <Menu id="M_MSR_CP_Param_GeneralSettings">
+            <Name textId="TN_M_CP_Param_GeneralSettings"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="129">
+                <Description textId="TD_STD_SystemCommand_ApplicationReset"/>
+              </Button>
+            </VariableRef>
+            <VariableRef variableId="V_X_PDSelect"/>
+          </Menu>
+          <Menu id="M_OMSR_Observe">
+            <VariableRef variableId="V_X_PDSelect" accessRightRestriction="ro"/>
+            <MenuRef menuId="M_OMSR_X_Observe_Sensor"/>
+            <MenuRef menuId="M_OMSR_X_Observe_Actuator"/>
+            <MenuRef menuId="M_OMSR_X_Observe_AdditionalInfo"/>
+          </Menu>
+          <Menu id="M_OMSR_X_Observe_Sensor">
+            <Name textId="TN_M_X_Observe_Sensor"/>
+            <RecordItemRef variableId="V_ProcessDataInput" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_ProcessDataInput" subindex="3"/>
+            <RecordItemRef variableId="V_ProcessDataInput" subindex="4"/>
+          </Menu>
+          <Menu id="M_OMSR_X_Observe_Actuator">
+            <Name textId="TN_M_X_Observe_Actuator"/>
+            <RecordItemRef variableId="V_ProcessDataOutput" subindex="1" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1342"/>
+            <RecordItemRef variableId="V_ProcessDataOutput" subindex="2"/>
+            <RecordItemRef variableId="V_ProcessDataOutput" subindex="3"/>
+            <VariableRef variableId="V_X_ActuatorCycles"/>
+          </Menu>
+          <Menu id="M_OMSR_X_Observe_AdditionalInfo">
+            <Name textId="TN_M_X_Observe_AdditionalInfo"/>
+            <RecordItemRef variableId="V_ProcessDataInput" subindex="2" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1001"/>
+            <VariableRef variableId="V_X_Uptime"/>
+          </Menu>
+          <Menu id="M_OR_Diag">
+            <MenuRef menuId="M_OMSR_CP_Diag_DeviceStatusInfo"/>
+            <MenuRef menuId="M_OMSR_X_Diag_OperatingInfo"/>
+          </Menu>
+          <Menu id="M_MSR_Diag">
+            <MenuRef menuId="M_OMSR_CP_Diag_DeviceStatusInfo"/>
+            <MenuRef menuId="M_OMSR_X_Diag_OperatingInfo"/>
+            <MenuRef menuId="M_MSR_CP_Diag_ServiceFunctions"/>
+          </Menu>
+          <Menu id="M_OMSR_CP_Diag_DeviceStatusInfo">
+            <Name textId="TN_M_CP_Diag_DeviceStatusInfo"/>
+            <VariableRef variableId="V_DeviceStatus"/>
+            <VariableRef variableId="V_DetailedDeviceStatus"/>
+          </Menu>
+          <Menu id="M_OMSR_X_Diag_OperatingInfo">
+            <Name textId="TN_M_X_Diag_OperatingInfo"/>
+            <VariableRef variableId="V_X_Uptime" displayFormat="Dec.2" gradient="0.016666667" offset="0" unitCode="1058"/>
+            <VariableRef variableId="V_X_OperatingHours" displayFormat="Dec.0" gradient="1" offset="0" unitCode="1059"/>
+            <VariableRef variableId="V_X_PowerCycles"/>
+            <VariableRef variableId="V_X_ActuatorCycles"/>
+          </Menu>
+          <Menu id="M_MSR_CP_Diag_ServiceFunctions">
+            <Name textId="TN_M_CP_Diag_ServiceFunctions"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="131">
+                <Description textId="TD_STD_SystemCommand_BackToBox"/>
+              </Button>
+            </VariableRef>
+          </Menu>
+        </MenuCollection>
+        <ObserverRoleMenuSet>
+          <IdentificationMenu menuId="M_OR_Ident"/>
+          <ParameterMenu menuId="M_OR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_OR_Diag"/>
+        </ObserverRoleMenuSet>
+        <MaintenanceRoleMenuSet>
+          <IdentificationMenu menuId="M_MSR_Ident"/>
+          <ParameterMenu menuId="M_MSR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_MSR_Diag"/>
+        </MaintenanceRoleMenuSet>
+        <SpecialistRoleMenuSet>
+          <IdentificationMenu menuId="M_MSR_Ident"/>
+          <ParameterMenu menuId="M_MSR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_MSR_Diag"/>
+        </SpecialistRoleMenuSet>
+      </UserInterface>
+    </DeviceFunction>
+  </ProfileBody>
+  <CommNetworkProfile xsi:type="IOLinkCommNetworkProfileT" iolinkRevision="V1.1">
+    <TransportLayers>
+      <PhysicalLayer bitrate="COM2" minCycleTime="2300" sioSupported="true" mSequenceCapability="27">
+        <Connection xsi:type="M12-4ConnectionT">
+          <ProductRef productId="ioddsample22"/>
+          <Wire1 function="L+"/>
+          <Wire2 function="NC"/>
+          <Wire3 function="L-"/>
+          <Wire4 function="C/Q"/>
+        </Connection>
+      </PhysicalLayer>
+    </TransportLayers>
+    <Test>
+      <Config1 index="64" testValue="0x11,0x22,0x33,0x44"/>
+      <Config2 index="256" testValue="0x01,0x02,0x03,0x04"/>
+      <Config3 index="24" testValue="0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20"/>
+      <Config7 index="254">
+        <EventTrigger appearValue="01" disappearValue="02"/>
+        <EventTrigger appearValue="03" disappearValue="04"/>
+      </Config7>
+    </Test>
+  </CommNetworkProfile>
+  <ExternalTextCollection>
+    <PrimaryLanguage xml:lang="en">
+      <Text id="T_VendorText" value="USE - Universal, Smart, Easy"/>
+      <Text id="T_VendorUrl" value="www.io-link.com"/>
+      <Text id="T_DeviceName" value="Conditional Process Data Device"/>
+      <Text id="T_DeviceFamily" value="IODD Guideline Sample"/>
+      <Text id="TN_ProductName" value="Conditional Process Data Device"/>
+      <Text id="TD_ProductDescr" value="IO-Link Device with a switching of process data representation via variable conditions."/>
+      <Text id="TN_PI_PDin0" value="PD Input - Std"/>
+      <Text id="TN_PO_PDout0" value="PD Output - Std"/>
+      <Text id="TN_PI_PDin1" value="PD Input - Set1"/>
+      <Text id="TN_PO_PDout1" value="PD Output - Set 1"/>
+      <Text id="TN_PI_PDin2" value="PD Input - Set 2"/>
+      <Text id="TN_PO_PDout2" value="PD Output - Set 2"/>
+      <Text id="TD_STD_SystemCommand_ApplicationReset" value="The parameter of the technology-specific application are set to default values. Identification parameter remain unchanged. An upload to the data storage of the master will be executed, if activated in the port configuration of the master."/>
+      <Text id="TD_STD_SystemCommand_BackToBox" value="The parameter of the device are set to factory default values and communication will be inhibited until the next power cycle. Note: Directly detach the device from the master port!"/>
+      <Text id="TN_V_CP_FunctionTag" value="Function Tag"/>
+      <Text id="TD_V_CP_FunctionTag" value="Possibility to mark a device with function-specific information."/>
+      <Text id="TN_V_CP_LocationTag" value="Location Tag"/>
+      <Text id="TD_V_CP_LocationTag" value="Possibility to mark a device with location-specific information."/>
+      <Text id="TN_V_X_ParamChannel1" value="Param Chan 1"/>
+      <Text id="TD_V_X_ParamChannel1" value="Defines the adjustment settings for the parameterization channel 1."/>
+      <Text id="TN_V_X_ParamChannel2" value="Param Chan 2"/>
+      <Text id="TD_V_X_ParamChannel2" value="Defines the adjustment settings for the parameterization channel 2."/>
+      <Text id="TN_V_X_ParamChannel_AdjustValue1" value="Adjustment Value 1"/>
+      <Text id="TD_V_X_ParamChannel_AdjustValue1" value="Defines the first value of the adjustment channel."/>
+      <Text id="TN_V_X_ParamChannel_AdjustValue2" value="Adjustment Value 2"/>
+      <Text id="TD_V_X_ParamChannel_AdjustValue2" value="Defines the second value of the adjustment channel."/>
+      <Text id="TN_SV_X_AdjustValue_disabled" value="Disabled"/>
+      <Text id="TN_V_X_PDSelect" value="Process Data Select"/>
+      <Text id="TD_V_X_PDSelect" value="Selects one of the available process data sets and corresponding information."/>
+      <Text id="TN_SV_X_PDSelect_set0" value="PD Standard"/>
+      <Text id="TN_SV_X_PDSelect_set1" value="PD Set 1"/>
+      <Text id="TN_SV_X_PDSelect_set2" value="PD Set 2"/>
+      <Text id="TN_V_X_TeachinSelect" value="Teach In Selection"/>
+      <Text id="TD_V_X_TeachinSelect" value="Defines the parameter channel for which a teach-in procedure will be applied, if triggered."/>
+      <Text id="TN_SV_X_Teachin_nochannnel" value="No channel"/>
+      <Text id="TN_SV_X_Teachin_channnel1" value="Param channel 1"/>
+      <Text id="TN_SV_X_Teachin_channnel2" value="Param channel 2"/>
+      <Text id="TN_X_SystemCommand_Teachin" value="Teach In"/>
+      <Text id="TD_X_SystemCommand_Teachin" value="The values of the parameter 'Param Chan1' will be adjusted upon execution of this command."/>
+      <Text id="TD_X_SystemCommand_ActionTeachin" value="The values of the parameter 'Param Chan1' have been set to new adjustment values. Upload the device parameter."/>
+      <Text id="TN_V_X_TeachinStatus" value="Teach-In Status"/>
+      <Text id="TD_V_X_TeachinStatus" value="Indicates the current status of the teach-in operation."/>
+      <Text id="TN_SV_X_Teachin_idle" value="Idle"/>
+      <Text id="TN_SV_X_Teachin_ok" value="Ok"/>
+      <Text id="TN_SV_X_Teachin_error" value="Error"/>
+      <Text id="TN_V_X_Uptime" value="Uptime"/>
+      <Text id="TD_V_X_Uptime" value="Shows the elapsed time since power-on in minutes with a resolution of seconds."/>
+      <Text id="TN_V_X_OperatingHours" value="Operating Hours"/>
+      <Text id="TD_V_X_OperatingHours" value="Shows the overall time of powered operation since initial commissioning in hours."/>
+      <Text id="TN_V_X_PowerCycles" value="Power Cycles"/>
+      <Text id="TD_V_X_PowerCycles" value="Shows the overall count of power-on events since initial commissioning."/>
+      <Text id="TN_V_X_ActuatorCycles" value="Actuator Cycles"/>
+      <Text id="TD_V_X_ActuatorCycles" value="Shows the overall count of actuator movements since initial commissioning."/>
+      <Text id="TN_PI_X_PDin_DetectionValue" value="Detection Value"/>
+      <Text id="TD_PI_X_PDin_DetectionValue" value="Shows the currently detected value of the sensor signal."/>
+      <Text id="TN_PI_X_PDin_TemperatureValue" value="Temperature Value"/>
+      <Text id="TD_PI_X_PDin_TemperatureValue" value="Shows the currently detected temperature of the device."/>
+      <Text id="TN_V_PD_CounterValue" value="Counter Value"/>
+      <Text id="TD_V_PD_CounterValue" value="Shows the current counted events for process data set 2."/>
+      <Text id="TN_PI_X_PDin_StatusSig1" value="Status Signal 1"/>
+      <Text id="TD_PI_X_PDin_StatusSig1" value="Indicates the current status of switching signal 1 derived from the detection value."/>
+      <Text id="TN_PI_X_PDin_StatusSig2" value="Status Signal 2"/>
+      <Text id="TD_PI_X_PDin_StatusSig2" value="Indicates the current status of switching signal 2 derived from the detection value."/>
+      <Text id="TN_SV_X_PDin_Status_low" value="Low"/>
+      <Text id="TN_SV_X_PDin_Status_high" value="High"/>
+      <Text id="TN_PO_X_PDout_ControlValue" value="Control Value"/>
+      <Text id="TD_PO_X_PDout_ControlValue" value="Controls a continuous setting for an actuator function."/>
+      <Text id="TN_PO_X_PDout_ControlFunction" value="Control Function"/>
+      <Text id="TD_PO_X_PDout_ControlFunction" value="Provides a possibility to trigger a function within the device. On a transition from 'Idle' to 'Exec' the control function is started and terminates when ready."/>
+      <Text id="TN_PO_X_PDout_ControlSig" value="Control Signal"/>
+      <Text id="TD_PO_X_PDout_ControlSig" value="Provides a possibility to enable or disable a function within the device."/>
+      <Text id="TN_SV_X_PDout_Control_idle" value="Idle"/>
+      <Text id="TN_SV_X_PDout_Control_exec" value="Execute"/>
+      <Text id="TN_SV_X_PDout_Control_disabled" value="Disabled"/>
+      <Text id="TN_SV_X_PDout_Control_enabled" value="Enabled"/>
+      <Text id="TN_M_X_Ident_Device" value="Device Identification"/>
+      <Text id="TN_M_X_Ident_Application" value="Application Identification"/>
+      <Text id="TN_M_X_Ident_Revision" value="Revision Information"/>
+      <Text id="TN_M_X_Observe_Sensor" value="Sensor Data"/>
+      <Text id="TN_M_X_Observe_Actuator" value="Actuator Data"/>
+      <Text id="TN_M_X_Observe_AdditionalInfo" value="Additional Information"/>
+      <Text id="TN_M_CP_Diag_DeviceStatusInfo" value="Device Status Information"/>
+      <Text id="TN_M_X_Diag_OperatingInfo" value="Operating Information"/>
+      <Text id="TN_M_CP_Diag_ServiceFunctions" value="Service Functions"/>
+      <Text id="TN_M_X_Param_DeviceParam" value="Device Parameterization"/>
+      <Text id="TN_M_X_Param_DeviceParam_Chan1" value="Channel 1"/>
+      <Text id="TN_M_X_Param_DeviceParam_Chan2" value="Channel 2"/>
+      <Text id="TN_M_X_Param_Teachin" value="Parameter Teach-In"/>
+      <Text id="TN_M_CP_Param_GeneralSettings" value="General Settings"/>
+    </PrimaryLanguage>
+  </ExternalTextCollection>
+  <Stamp crc="629717139"><Checker name="IODD-Checker V1.1.7" version="V1.1.7.0"/></Stamp>
+</IODevice>

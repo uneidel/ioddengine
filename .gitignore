@@ -1,0 +1,4 @@
+# Ignore all target folders
+**/target/
+target/
+**/release/

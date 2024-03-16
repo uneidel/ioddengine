@@ -1,0 +1,11 @@
+workspace = {members  =[ "ioddengine", "wasm", "catalog","cli", "iotcoreconnect"]}
+
+[package]
+name = "ioddlib"
+version = "0.1.0"
+edition = "2021"
+
+
+[lib]
+name = "your_library_name"
+path = "src/lib.rs"

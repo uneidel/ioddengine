@@ -1,0 +1,482 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<IODevice xmlns="http://www.io-link.com/IODD/2010/10" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.io-link.com/IODD/2010/10 IODD1.1.xsd">
+  <DocumentInfo version="V1.00.000" releaseDate="2021-12-15" copyright="Copyright IO-Link Community 2021"/>
+  <ProfileHeader>
+    <ProfileIdentification>IO Device Profile</ProfileIdentification>
+    <ProfileRevision>1.1</ProfileRevision>
+    <ProfileName>Device Profile for IO Devices</ProfileName>
+    <ProfileSource>IO-Link Consortium</ProfileSource>
+    <ProfileClassID>Device</ProfileClassID>
+    <ISO15745Reference>
+      <ISO15745Part>1</ISO15745Part>
+      <ISO15745Edition>1</ISO15745Edition>
+      <ProfileTechnology>IODD</ProfileTechnology>
+    </ISO15745Reference>
+  </ProfileHeader>
+  <ProfileBody>
+    <DeviceIdentity vendorId="65535" deviceId="10" vendorName="IO-Link Community">
+      <VendorText textId="T_VendorText"/>
+      <VendorUrl textId="T_VendorUrl"/>
+      <VendorLogo name="IO-Link-logo.png"/>
+      <DeviceName textId="T_DeviceName"/>
+      <DeviceFamily textId="T_DeviceFamily"/>
+      <DeviceVariantCollection>
+        <DeviceVariant productId="ioddsample10" deviceSymbol="IO-Link-Device-pic.png" deviceIcon="IO-Link-Device-icon.png">
+          <Name textId="TN_ProductName"/>
+          <Description textId="TD_ProductDescr"/>
+        </DeviceVariant>
+      </DeviceVariantCollection>
+    </DeviceIdentity>
+    <DeviceFunction>
+      <Features blockParameter="true" dataStorage="true" profileCharacteristic="16384">
+        <SupportedAccessLocks parameter="false" dataStorage="false" localParameterization="false" localUserInterface="false"/>
+      </Features>
+      <VariableCollection>
+        <StdVariableRef id="V_DirectParameters_1"/>
+        <StdVariableRef id="V_SystemCommand">
+          <StdSingleValueRef value="129"/>
+          <StdSingleValueRef value="131"/>
+        </StdVariableRef>
+        <StdVariableRef id="V_VendorName" defaultValue="IO-Link Community"/>
+        <StdVariableRef id="V_VendorText"/>
+        <StdVariableRef id="V_ProductName" defaultValue="All Complex Datatype Device"/>
+        <StdVariableRef id="V_ProductID" defaultValue="ioddsample10"/>
+        <StdVariableRef id="V_ProductText" defaultValue="IODD Guideline Sample"/>
+        <StdVariableRef id="V_SerialNumber"/>
+        <StdVariableRef id="V_HardwareRevision"/>
+        <StdVariableRef id="V_FirmwareRevision"/>
+        <StdVariableRef id="V_ApplicationSpecificTag" defaultValue="***" excludedFromDataStorage="false"/>
+        <StdVariableRef id="V_DeviceStatus"/>
+        <StdVariableRef id="V_DetailedDeviceStatus" fixedLengthRestriction="1"/>
+        <StdVariableRef id="V_ProcessDataInput"/>
+        <StdVariableRef id="V_ProcessDataOutput"/>
+        <Variable id="V_CP_FunctionTag" index="25" accessRights="rw" defaultValue="***" excludedFromDataStorage="false">
+          <Datatype xsi:type="StringT" fixedLength="32" encoding="UTF-8"/>
+          <Name textId="TN_V_CP_FunctionTag"/>
+          <Description textId="TD_V_CP_FunctionTag"/>
+        </Variable>
+        <Variable id="V_CP_LocationTag" index="26" accessRights="rw" defaultValue="***" excludedFromDataStorage="false">
+          <Datatype xsi:type="StringT" fixedLength="32" encoding="UTF-8"/>
+          <Name textId="TN_V_CP_LocationTag"/>
+          <Description textId="TD_V_CP_LocationTag"/>
+        </Variable>
+        <Variable index="64" id="V_X_ParamArrayBool" accessRights="rw" defaultValue="false" excludedFromDataStorage="false">
+          <Datatype xsi:type="ArrayT" count="4" subindexAccessSupported="false">
+            <SimpleDatatype xsi:type="BooleanT">
+              <SingleValue value="false">
+                <Name textId="TN_SV_X_ParamState_disabled"/>
+              </SingleValue>
+              <SingleValue value="true">
+                <Name textId="TN_SV_X_ParamState_enabled"/>
+              </SingleValue>
+            </SimpleDatatype>
+          </Datatype>
+          <Name textId="TN_V_X_ParamArrayBool"/>
+          <Description textId="TD_V_X_ParamArrayBool"/>
+        </Variable>
+        <Variable index="65" id="V_X_ParamRecordBool" accessRights="rw" excludedFromDataStorage="false">
+          <Datatype xsi:type="RecordT" bitLength="8" subindexAccessSupported="false">
+            <RecordItem subindex="1" bitOffset="0">
+              <SimpleDatatype xsi:type="BooleanT">
+                <SingleValue value="false">
+                  <Name textId="TN_SV_X_ParamState_disabled"/>
+                </SingleValue>
+                <SingleValue value="true">
+                  <Name textId="TN_SV_X_ParamState_enabled"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordBool_Feature1"/>
+              <Description textId="TD_V_X_ParamRecordBool_Feature"/>
+            </RecordItem>
+            <RecordItem subindex="2" bitOffset="1">
+              <SimpleDatatype xsi:type="BooleanT">
+                <SingleValue value="false">
+                  <Name textId="TN_SV_X_ParamState_disabled"/>
+                </SingleValue>
+                <SingleValue value="true">
+                  <Name textId="TN_SV_X_ParamState_enabled"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordBool_Feature2"/>
+              <Description textId="TD_V_X_ParamRecordBool_Feature"/>
+            </RecordItem>
+            <RecordItem subindex="3" bitOffset="2">
+              <SimpleDatatype xsi:type="BooleanT">
+                <SingleValue value="false">
+                  <Name textId="TN_SV_X_ParamState_disabled"/>
+                </SingleValue>
+                <SingleValue value="true">
+                  <Name textId="TN_SV_X_ParamState_enabled"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordBool_Feature3"/>
+              <Description textId="TD_V_X_ParamRecordBool_Feature"/>
+            </RecordItem>
+            <RecordItem subindex="4" bitOffset="3">
+              <SimpleDatatype xsi:type="BooleanT">
+                <SingleValue value="false">
+                  <Name textId="TN_SV_X_ParamState_disabled"/>
+                </SingleValue>
+                <SingleValue value="true">
+                  <Name textId="TN_SV_X_ParamState_enabled"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordBool_Feature4"/>
+              <Description textId="TD_V_X_ParamRecordBool_Feature"/>
+            </RecordItem>
+          </Datatype>
+          <RecordItemInfo subindex="1" defaultValue="false"/>
+          <RecordItemInfo subindex="2" defaultValue="true"/>
+          <RecordItemInfo subindex="3" defaultValue="false"/>
+          <RecordItemInfo subindex="4" defaultValue="true"/>
+          <Name textId="TN_V_X_ParamRecordBool"/>
+          <Description textId="TD_V_X_ParamRecordBool"/>
+        </Variable>
+        <Variable index="66" id="V_X_ParamArrayI16" accessRights="rw" defaultValue="500" excludedFromDataStorage="false">
+          <Datatype xsi:type="ArrayT" count="3">
+            <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+              <ValueRange lowerValue="-999" upperValue="999"/>
+              <SingleValue value="-1000">
+                <Name textId="TN_SV_X_ParamValue_minvalue"/>
+              </SingleValue>
+              <SingleValue value="1000">
+                <Name textId="TN_SV_X_ParamValue_maxvalue"/>
+              </SingleValue>
+            </SimpleDatatype>
+          </Datatype>
+          <Name textId="TN_V_X_ParamArrayI16"/>
+          <Description textId="TD_V_X_ParamArrayI16"/>
+        </Variable>
+        <Variable index="67" id="V_X_ParamRecordI16" accessRights="rw" excludedFromDataStorage="false">
+          <Datatype xsi:type="RecordT" bitLength="48">
+            <RecordItem subindex="1" bitOffset="32">
+              <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                <ValueRange lowerValue="-999" upperValue="999"/>
+                <SingleValue value="-1000">
+                  <Name textId="TN_SV_X_ParamValue_minvalue"/>
+                </SingleValue>
+                <SingleValue value="1000">
+                  <Name textId="TN_SV_X_ParamValue_maxvalue"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordI16_Value1"/>
+              <Description textId="TD_V_X_ParamRecordI16_Value1"/>
+            </RecordItem>
+            <RecordItem subindex="2" bitOffset="16">
+              <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                <ValueRange lowerValue="-999" upperValue="999"/>
+                <SingleValue value="-1000">
+                  <Name textId="TN_SV_X_ParamValue_minvalue"/>
+                </SingleValue>
+                <SingleValue value="1000">
+                  <Name textId="TN_SV_X_ParamValue_maxvalue"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordI16_Value2"/>
+              <Description textId="TD_V_X_ParamRecordI16_Value2"/>
+            </RecordItem>
+            <RecordItem subindex="3" bitOffset="0">
+              <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                <ValueRange lowerValue="-999" upperValue="999"/>
+                <SingleValue value="-1000">
+                  <Name textId="TN_SV_X_ParamValue_minvalue"/>
+                </SingleValue>
+                <SingleValue value="1000">
+                  <Name textId="TN_SV_X_ParamValue_maxvalue"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordI16_Value3"/>
+              <Description textId="TD_V_X_ParamRecordI16_Value3"/>
+            </RecordItem>
+          </Datatype>
+          <RecordItemInfo subindex="1" defaultValue="500"/>
+          <RecordItemInfo subindex="2" defaultValue="-500"/>
+          <RecordItemInfo subindex="3" defaultValue="0"/>
+          <Name textId="TN_V_X_ParamRecordI16"/>
+          <Description textId="TD_V_X_ParamRecordI16"/>
+        </Variable>
+        <Variable index="68" id="V_X_ParamRecordMixed" accessRights="rw" excludedFromDataStorage="false">
+          <Datatype xsi:type="RecordT" bitLength="64">
+            <RecordItem subindex="1" bitOffset="56">
+              <SimpleDatatype xsi:type="UIntegerT" bitLength="8">
+                <SingleValue value="0">
+                  <Name textId="TN_SV_X_ParamState_disabled"/>
+                </SingleValue>
+                <SingleValue value="1">
+                  <Name textId="TN_SV_X_ParamState_enabled"/>
+                </SingleValue>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordMixed_Value1"/>
+              <Description textId="TD_V_X_ParamRecordMixed_Value1"/>
+            </RecordItem>
+            <!-- A gap of 8 bit is left between the two record items for a future use -->
+            <RecordItem subindex="3" bitOffset="32">
+              <SimpleDatatype xsi:type="IntegerT" bitLength="16">
+                <ValueRange lowerValue="-500" upperValue="2000"/>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordMixed_Value2"/>
+              <Description textId="TD_V_X_ParamRecordMixed_Value2"/>
+            </RecordItem>
+            <RecordItem subindex="4" bitOffset="0">
+              <SimpleDatatype xsi:type="Float32T">
+                <ValueRange lowerValue="-100000" upperValue="100000"/>
+              </SimpleDatatype>
+              <Name textId="TN_V_X_ParamRecordMixed_Value3"/>
+              <Description textId="TD_V_X_ParamRecordMixed_Value3"/>
+            </RecordItem>
+          </Datatype>
+          <RecordItemInfo subindex="1" defaultValue="0"/>
+          <RecordItemInfo subindex="3" defaultValue="250"/>
+          <RecordItemInfo subindex="4" defaultValue="50000"/>
+          <Name textId="TN_V_X_ParamRecordMixed"/>
+          <Description textId="TD_V_X_ParamRecordMixed"/>
+        </Variable>
+      </VariableCollection>
+      <ProcessDataCollection>
+        <ProcessData id="P_ProcessData">
+          <ProcessDataIn id="PI_PDin" bitLength="32">
+            <Datatype xsi:type="IntegerT" bitLength="32"/>
+            <Name textId="TN_PI_PDin"/>
+          </ProcessDataIn>
+          <ProcessDataOut id="PO_PDout" bitLength="16">
+            <Datatype xsi:type="IntegerT" bitLength="16"/>
+            <Name textId="TN_PO_PDout"/>
+          </ProcessDataOut>
+        </ProcessData>
+      </ProcessDataCollection>
+      <ErrorTypeCollection>
+        <!-- 0x8011 IDX_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="17"/>
+        <!-- 0x8012 SUBIDX_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="18"/>
+        <!-- 0x8020 SERV_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="32"/>
+        <!-- 0x8021 SERV_NOTAVAIL_LOCCTRL -->
+        <StdErrorTypeRef code="128" additionalCode="33"/>
+        <!-- 0x8022 SERV_NOTAVAIL_DEVCTRL -->
+        <StdErrorTypeRef code="128" additionalCode="34"/>
+        <!-- 0x8023 IDX_NOT_ACCESSIBLE -->
+        <StdErrorTypeRef code="128" additionalCode="35"/>
+        <!-- 0x8030 PAR_VALOUTOFRNG -->
+        <StdErrorTypeRef code="128" additionalCode="48"/>
+        <!-- 0x8031 PAR_VALGTLIM -->
+        <StdErrorTypeRef code="128" additionalCode="49"/>
+        <!-- 0x8032 PAR_VALLTLIM -->
+        <StdErrorTypeRef code="128" additionalCode="50"/>
+        <!-- 0x8033 VAL_LENOVRRUN -->
+        <StdErrorTypeRef code="128" additionalCode="51"/>
+        <!-- 0x8034 VAL_LENUNDRUN -->
+        <StdErrorTypeRef code="128" additionalCode="52"/>
+        <!-- 0x8035 FUNC_NOTAVAIL -->
+        <StdErrorTypeRef code="128" additionalCode="53"/>
+        <!-- 0x8036 FUNC_UNAVAILTEMP -->
+        <StdErrorTypeRef code="128" additionalCode="54"/>
+        <!-- 0x8040 PAR_SETINVALID -->
+        <StdErrorTypeRef code="128" additionalCode="64"/>
+        <!--0x8041  PAR_SETINCONSIST -->
+        <StdErrorTypeRef code="128" additionalCode="65"/>
+        <!--0x8082  APP_DEVNOTRDY -->
+        <StdErrorTypeRef code="128" additionalCode="130"/>
+      </ErrorTypeCollection>
+      <EventCollection>
+        <!-- 0x5010 Error: Component malfunction – Repair or exchange  -->
+        <StdEventRef code="20496"/>
+      </EventCollection>
+      <UserInterface>
+        <MenuCollection>
+          <Menu id="M_OR_Ident">
+            <VariableRef variableId="V_VendorName"/>
+            <VariableRef variableId="V_VendorText"/>
+            <VariableRef variableId="V_ProductName"/>
+            <VariableRef variableId="V_ProductText"/>
+            <VariableRef variableId="V_ProductID"/>
+            <VariableRef variableId="V_SerialNumber"/>
+            <VariableRef variableId="V_HardwareRevision"/>
+            <VariableRef variableId="V_FirmwareRevision"/>
+            <VariableRef variableId="V_ApplicationSpecificTag" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_CP_FunctionTag" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_CP_LocationTag" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_MSR_Ident">
+            <VariableRef variableId="V_VendorName"/>
+            <VariableRef variableId="V_VendorText"/>
+            <VariableRef variableId="V_ProductName"/>
+            <VariableRef variableId="V_ProductText"/>
+            <VariableRef variableId="V_ProductID"/>
+            <VariableRef variableId="V_SerialNumber"/>
+            <VariableRef variableId="V_HardwareRevision"/>
+            <VariableRef variableId="V_FirmwareRevision"/>
+            <VariableRef variableId="V_ApplicationSpecificTag"/>
+            <VariableRef variableId="V_CP_FunctionTag"/>
+            <VariableRef variableId="V_CP_LocationTag"/>
+          </Menu>
+          <Menu id="M_OR_Param">
+            <MenuRef menuId="M_OR_X_Param_DeviceParam"/>
+          </Menu>
+          <Menu id="M_MSR_Param">
+            <MenuRef menuId="M_MSR_X_Param_DeviceParam"/>
+            <MenuRef menuId="M_MSR_CP_Param_GeneralSettings"/>
+          </Menu>
+          <Menu id="M_OR_X_Param_DeviceParam">
+            <Name textId="TN_M_X_Param_DeviceParam"/>
+            <VariableRef variableId="V_X_ParamArrayBool" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_X_ParamRecordBool" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="4" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="2" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="1" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="3" accessRightRestriction="ro"/>
+            <VariableRef variableId="V_X_ParamArrayI16" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordI16" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordI16" subindex="2" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordI16" subindex="3" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1013" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordMixed" subindex="1" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordMixed" subindex="4" displayFormat="Dec.5" gradient="0.00001" offset="0" unitCode="1010" accessRightRestriction="ro"/>
+            <RecordItemRef variableId="V_X_ParamRecordMixed" subindex="3" displayFormat="Dec.1" gradient="0.1" offset="0" unitCode="1001" accessRightRestriction="ro"/>
+          </Menu>
+          <Menu id="M_MSR_X_Param_DeviceParam">
+            <Name textId="TN_M_X_Param_DeviceParam"/>
+            <VariableRef variableId="V_X_ParamArrayBool"/>
+            <VariableRef variableId="V_X_ParamRecordBool"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="4"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="2"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="1"/>
+            <RecordItemRef variableId="V_X_ParamRecordBool" subindex="3"/>
+            <VariableRef variableId="V_X_ParamArrayI16" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamRecordI16" subindex="1" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamRecordI16" subindex="2" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamRecordI16" subindex="3" displayFormat="Dec.2" gradient="0.01" offset="0" unitCode="1013"/>
+            <RecordItemRef variableId="V_X_ParamRecordMixed" subindex="1"/>
+            <RecordItemRef variableId="V_X_ParamRecordMixed" subindex="4" displayFormat="Dec.5" gradient="0.00001" offset="0" unitCode="1010"/>
+            <RecordItemRef variableId="V_X_ParamRecordMixed" subindex="3" displayFormat="Dec.1" gradient="0.1" offset="0" unitCode="1001"/>
+          </Menu>
+          <Menu id="M_MSR_CP_Param_GeneralSettings">
+            <Name textId="TN_M_CP_Param_GeneralSettings"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="129">
+                <Description textId="TD_STD_SystemCommand_ApplicationReset"/>
+              </Button>
+            </VariableRef>
+          </Menu>
+          <Menu id="M_OMSR_Observe">
+            <VariableRef variableId="V_ProcessDataInput"/>
+            <VariableRef variableId="V_ProcessDataOutput"/>
+          </Menu>
+          <Menu id="M_OR_Diag">
+            <MenuRef menuId="M_OMSR_CP_Diag_DeviceStatusInfo"/>
+          </Menu>
+          <Menu id="M_MSR_Diag">
+            <MenuRef menuId="M_OMSR_CP_Diag_DeviceStatusInfo"/>
+            <MenuRef menuId="M_MSR_CP_Diag_ServiceFunctions"/>
+          </Menu>
+          <Menu id="M_OMSR_CP_Diag_DeviceStatusInfo">
+            <Name textId="TN_M_CP_Diag_DeviceStatusInfo"/>
+            <VariableRef variableId="V_DeviceStatus"/>
+            <VariableRef variableId="V_DetailedDeviceStatus"/>
+          </Menu>
+          <Menu id="M_MSR_CP_Diag_ServiceFunctions">
+            <Name textId="TN_M_CP_Diag_ServiceFunctions"/>
+            <VariableRef variableId="V_SystemCommand">
+              <Button buttonValue="131">
+                <Description textId="TD_STD_SystemCommand_BackToBox"/>
+              </Button>
+            </VariableRef>
+          </Menu>
+        </MenuCollection>
+        <ObserverRoleMenuSet>
+          <IdentificationMenu menuId="M_OR_Ident"/>
+          <ParameterMenu menuId="M_OR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_OR_Diag"/>
+        </ObserverRoleMenuSet>
+        <MaintenanceRoleMenuSet>
+          <IdentificationMenu menuId="M_MSR_Ident"/>
+          <ParameterMenu menuId="M_MSR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_MSR_Diag"/>
+        </MaintenanceRoleMenuSet>
+        <SpecialistRoleMenuSet>
+          <IdentificationMenu menuId="M_MSR_Ident"/>
+          <ParameterMenu menuId="M_MSR_Param"/>
+          <ObservationMenu menuId="M_OMSR_Observe"/>
+          <DiagnosisMenu menuId="M_MSR_Diag"/>
+        </SpecialistRoleMenuSet>
+      </UserInterface>
+    </DeviceFunction>
+  </ProfileBody>
+  <CommNetworkProfile xsi:type="IOLinkCommNetworkProfileT" iolinkRevision="V1.1">
+    <TransportLayers>
+      <PhysicalLayer bitrate="COM2" minCycleTime="2300" sioSupported="true" mSequenceCapability="27">
+        <Connection xsi:type="M12-4ConnectionT">
+          <ProductRef productId="ioddsample10"/>
+          <Wire1 function="L+"/>
+          <Wire2 function="NC"/>
+          <Wire3 function="L-"/>
+          <Wire4 function="C/Q"/>
+        </Connection>
+      </PhysicalLayer>
+    </TransportLayers>
+    <Test>
+      <Config1 index="64" testValue="0x11,0x22,0x33,0x44"/>
+      <Config2 index="256" testValue="0x01,0x02,0x03,0x04"/>
+      <Config3 index="24" testValue="0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20,0x20"/>
+      <Config7 index="254">
+        <EventTrigger appearValue="01" disappearValue="02"/>
+        <EventTrigger appearValue="03" disappearValue="04"/>
+      </Config7>
+    </Test>
+  </CommNetworkProfile>
+  <ExternalTextCollection>
+    <PrimaryLanguage xml:lang="en">
+      <Text id="T_VendorText" value="USE - Universal, Smart, Easy"/>
+      <Text id="T_VendorUrl" value="www.io-link.com"/>
+      <Text id="T_DeviceName" value="All Complex Datatype Device"/>
+      <Text id="T_DeviceFamily" value="IODD Guideline Sample"/>
+      <Text id="TN_ProductName" value="All Complex Datatype Device"/>
+      <Text id="TD_ProductDescr" value="IO-Link Device with parameters using all complex datatypes with different simple datatypes and showing possible user interface representations."/>
+      <Text id="TN_PI_PDin" value="PD Input"/>
+      <Text id="TN_PO_PDout" value="PD Output"/>
+      <Text id="TD_STD_SystemCommand_ApplicationReset" value="The parameter of the technology-specific application are set to default values. Identification parameter remain unchanged. An upload to the data storage of the master will be executed, if activated in the port configuration of the master."/>
+      <Text id="TD_STD_SystemCommand_BackToBox" value="The parameter of the device are set to factory default values and communication will be inhibited until the next power cycle. Note: Directly detach the device from the master port!"/>
+      <Text id="TN_V_CP_FunctionTag" value="Function Tag"/>
+      <Text id="TD_V_CP_FunctionTag" value="Possibility to mark a device with function-specific information."/>
+      <Text id="TN_V_CP_LocationTag" value="Location Tag"/>
+      <Text id="TD_V_CP_LocationTag" value="Possibility to mark a device with location-specific information."/>
+      <Text id="TN_V_X_ParamArrayBool" value="Array Param (Bool)"/>
+      <Text id="TD_V_X_ParamArrayBool" value="Shows an array of boolean values. All array items have the same default value, different names and descriptions are not possible. It is highly recommended to inhibit subindex access for boolean record items."/>
+      <Text id="TN_V_X_ParamRecordBool" value="Record Param (Bool)"/>
+      <Text id="TD_V_X_ParamRecordBool" value="Shows a record of boolean values. The record allows specific names and descriptions as well as default values for all record items. It is highly recommended to inhibit subindex access for boolean record items."/>
+      <Text id="TN_V_X_ParamRecordBool_Feature1" value="Feature 1"/>
+      <Text id="TN_V_X_ParamRecordBool_Feature2" value="Feature 2"/>
+      <Text id="TN_V_X_ParamRecordBool_Feature3" value="Feature 3"/>
+      <Text id="TN_V_X_ParamRecordBool_Feature4" value="Feature 4"/>
+      <Text id="TD_V_X_ParamRecordBool_Feature" value="Defines if the feature is available by setting of the boolean recorditem variable."/>
+      <Text id="TN_SV_X_ParamState_disabled" value="Disabled"/>
+      <Text id="TN_SV_X_ParamState_enabled" value="Enabled"/>
+      <Text id="TN_V_X_ParamArrayI16" value="Array Param (Integer)"/>
+      <Text id="TD_V_X_ParamArrayI16" value="Shows an array of integer values. All array items have the same default value, different names, descriptions, transformations and units are not possible."/>
+      <Text id="TN_SV_X_ParamValue_minvalue" value="Min. value"/>
+      <Text id="TN_SV_X_ParamValue_maxvalue" value="Max. value"/>
+      <Text id="TN_V_X_ParamRecordI16" value="Record Param (Integer)"/>
+      <Text id="TD_V_X_ParamRecordI16" value="Shows a record of integer values. The record allows specific names and descriptions as well as default values, transformations and units for all record items."/>
+      <Text id="TN_V_X_ParamRecordI16_Value1" value="X Axis Position"/>
+      <Text id="TD_V_X_ParamRecordI16_Value1" value="Defines the position in x direction."/>
+      <Text id="TN_V_X_ParamRecordI16_Value2" value="Y Axis Position"/>
+      <Text id="TD_V_X_ParamRecordI16_Value2" value="Defines the position in y direction."/>
+      <Text id="TN_V_X_ParamRecordI16_Value3" value="Z Axis Position"/>
+      <Text id="TD_V_X_ParamRecordI16_Value3" value="Defines the position in z direction."/>
+      <Text id="TN_V_X_ParamRecordMixed" value="Record Param (Mixed Datatypes)"/>
+      <Text id="TD_V_X_ParamRecordMixed" value="Shows record values with diferent datatypes and length. A gap is left within the record for future use."/>
+      <Text id="TN_V_X_ParamRecordMixed_Value1" value="Fine Positioning"/>
+      <Text id="TD_V_X_ParamRecordMixed_Value1" value="Defines if fine positioning is enabled or disabled."/>
+      <Text id="TN_V_X_ParamRecordMixed_Value2" value="Temperature Offset"/>
+      <Text id="TD_V_X_ParamRecordMixed_Value2" value="Defines the temperature compensation value."/>
+      <Text id="TN_V_X_ParamRecordMixed_Value3" value="Fine Position Value"/>
+      <Text id="TD_V_X_ParamRecordMixed_Value3" value="Defines the value for fine positioning."/>
+      <Text id="TN_M_CP_Diag_DeviceStatusInfo" value="Device Status Information"/>
+      <Text id="TN_M_CP_Diag_ServiceFunctions" value="Service Functions"/>
+      <Text id="TN_M_X_Param_DeviceParam" value="Device Parameterization"/>
+      <Text id="TN_M_CP_Param_GeneralSettings" value="General Settings"/>
+    </PrimaryLanguage>
+  </ExternalTextCollection>
+  <Stamp crc="797752019"><Checker name="IODD-Checker V1.1.7" version="V1.1.7.0"/></Stamp>
+</IODevice>
