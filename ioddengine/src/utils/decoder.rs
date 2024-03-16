@@ -59,7 +59,7 @@ pub fn get_booleant(bits: &BitVec, offset : usize) -> bool{
 pub fn get_float32t(bits: &BitVec, offset : usize) -> f32 {
     info!("Float32T Offset: {} with Length: {}",offset, 32);
     let length = 32;
-    dbg!(format!("Decoding with offset {} and length: {}",offset, length));
+    info!("Decoding with offset {} and length: {}",offset, length);
     let val = &bits[offset..(offset+length)];
     if val.len() > 32 {
         panic!("Bitlength longer than expected.");

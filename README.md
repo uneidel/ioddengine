@@ -30,45 +30,70 @@ Due to potential License Issues you need to download the [Standard Definitions](
 
 Please see CLI for further information how to work with Library.
 
-Tested with the following IFM Devices:
-- 05D
-- LMT121
-- LR3300
-- PN7592
-- TN2405
-- KQ5100
+Tested with the following  Devices:
 
 
 | Company  | deviceid   |  productname  | PDIN  | Write  |
 |----------|------------|---------------|-------|--------|
-|   IFM    |            |  05d150       |   X   |        |
+|   IFM    |    372     |  05d150       |   X   |        |
 |   IFM    |            |  LMT121       |   X   |        |
-|   IFM    |            |      LR3300   |   X   |        |
-|   IFM    |            |      PN7592   |   X   |        |
-|   IFM    |            |      TN2405   |   X   |        |
+|   IFM    |            |  LR3300       |   X   |        |
+|   IFM    |            |  PN7592       |   X   |        |
+|   IFM    |            |  TN2405       |   X   |        |
 |   IFM    |            |      KQ5100   |   X   |        |
-|   AUTOSEN|            |      AL009    |   X   |        |
-|   AUTOSEN|            |      AS001    |   X   |        |
+|   AUTOSEN|    85      |      AL009    |   X   |        |
+|   AUTOSEN|    16      |      AS001    |   X   |        |
+|  IFM     |  872       |     SD1540    |   X   |        |
 
 
 ## Vendor: 837, ProductName:AL009, Device:85
-HexData: 0046FD0000190001
-Name: Entfernung, Desc: Aktuelle Entfernung des Objekts, Value: 70.0, Unit: mm
-Name: Reflectivity, Desc: Current object reflectivity, Value: 25.0, Unit: %
-Name: Gerätestatus, Desc: Aktueller Gerätestatus, eine Kopie der Variable [Gerätestatus] im Prozessdatenkanal, Value: 0.0
-Name: OUT2, Desc: Status abhängig von [OU2], Value: "inaktiv"
-Name: OUT1, Desc: Status abhängig von [OU1], Value: "inaktiv"
+HexData: 0046FD0000190001   
+Name: Entfernung, Desc: Aktuelle Entfernung des Objekts, Value: 70.0, Unit: mm   
+Name: Reflectivity, Desc: Current object reflectivity, Value: 25.0, Unit: %   
+Name: Gerätestatus, Desc: Aktueller Gerätestatus, eine Kopie der Variable [Gerätestatus] im Prozessdatenkanal, Value: 0.0   
+Name: OUT2, Desc: Status abhängig von [OU2], Value: "inaktiv"  
+Name: OUT1, Desc: Status abhängig von [OU1], Value: "inaktiv"   
 
 ## Vendor: 837, ProductName:AS001, Device:16
-HexData: 008D00D3
-Name: Durchfluss, Desc: Aktueller Durchfluss, Value: "OL", Unit: %
-Name: Temperatur, Desc: Aktuelle Temperatur, Value: 52.0, Unit: %
-Name: Schaltzustand [OUT2], Desc: Status abhängig von [OU2], Value: "inactiv"
-Name: Schaltzustand [OUT1], Desc: Status abhängig von [OU1], Value: "inactiv"
+HexData: 008D00D3    
+Name: Durchfluss, Desc: Aktueller Durchfluss, Value: "OL", Unit: %    
+Name: Temperatur, Desc: Aktuelle Temperatur, Value: 52.0, Unit: %   
+Name: Schaltzustand [OUT2], Desc: Status abhängig von [OU2], Value: "inactiv"   
+Name: Schaltzustand [OUT1], Desc: Status abhängig von [OU1], Value: "inactiv"   
+
+## Vendor: 310, ProductName:O5D150, Device:372
+HexData: 0251    
+Name: Abstand, Desc: Abb. PDV1. Aktueller Abstand., Value: 37.0, Unit: cm    
+Name: Schaltzustand [OUT1], Desc: Abb. BDC1. Zustand abhängig von Einstellungen für BDC1., Value: "Inaktiv"   
+
+## Vendor: 310, ProductName:SD1540, Device:872
+HexData: 0000000000000000FE00079EFE0000000300
+Name: Totalisator, Desc: Durchflussmenge. Der Wert entspricht der aktuellen Verbrauchsmenge seit dem letzten Reset, Value: 0.0, Unit: m³
+Name: Durchfluss, Desc: Aktueller Durchfluss, Value: 0.0, Unit: m³/h
+Name: Temperatur, Desc: Aktuelle Temperatur, Value: 19.5, Unit: °C
+Name: Druck, Desc: Aktueller Druck, Value: 0.0, Unit: bar
+Name: Gerätestatus, Desc: Aktueller Gerätestatus, eine Kopie des Parameters [Gerätestatus, Index 36] im Prozessdatenkanal, Value: 0.0
+Name: OUT2, Desc: Aktueller Zustand des digitalen Signals [OUT2], Value: "OFF"
+Name: OUT1, Desc: Aktueller Zustand des digitalen Signals [OUT1], Value: "OFF"
+
+
+## Vendor: 310, ProductName:SI5010, Device:54
+HexData: FFF6005A
+Name: Durchfluss, Desc: Aktueller Durchfluss, Value: -10.0, Unit: %
+Name: Temperatur, Desc: Aktuelle Temperatur, Value: 22.0, Unit: °C
+Name: Schaltzustand [OUT2] nicht anwendbar, Desc: Das [OUT2] Bit ist zwar belegt, es wird aber nicht verwendet, Value: "aktiv"
+Name: Schaltzustand [OUT1], Desc: Status abhängig von [OU1], Value: "aktiv"
+
+## Vendor: 310, ProductName:KQ5100, Device:371
+HexData: 0020
+Name: Prozesswert, Desc: Abb. PDV1. Aktueller Prozesswert., Value: 2.0
+Name: Schaltzustand [OUT1], Desc: Abb. BDC1. Zustand abhängig von Einstellungen für BDC1., Value: "inaktiv"
 
 
 
 # TODO
 1) Read Variables from Device before printing PDIN eg. Device could be set to Fahrenheit instead of Celsisus
 2) Do CRC32 Check - if possible
-2) Refactor code 
+3) Refactor code 
+4) Github Actions
+5) Some more Documentation
