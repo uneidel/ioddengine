@@ -11,12 +11,10 @@ use yaserde::YaDeserialize;
 use log::info;
 
 pub struct Parser {
-   
     pub iodevice: ioddmodel11::IODevice::IODevice,
 }
 
 impl Parser {
-  
     pub fn new(drivername: String, files: Vec<(String, Vec<u8>)>) -> Self {
         let basefilename = format!("{}.xml", drivername);
         let basefile = files
@@ -130,10 +128,10 @@ impl Parser {
     }
 
     fn add_xmlns_xsi_to_comm_network_profile(xml_data: &str) -> String {
-        // Find the index of the closing angle bracket (>) of the opening tag of CommNetworkProfile
+        
         let mut modified_xml = String::new();
         if let Some(index) = xml_data.find('>') {
-            // Insert the namespace declaration just before the first attribute
+           
             modified_xml.push_str(&xml_data[..index]);
             modified_xml.push_str(" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
             modified_xml.push_str(&xml_data[index..]);

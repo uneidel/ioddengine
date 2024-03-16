@@ -61,7 +61,7 @@ impl Catalog {
         let files = self.get_file(drivername.clone());
         (drivername, files)
     }
-    pub async fn query(
+    async fn query(
         &self,
         deviceid: i32,
         product_name: String,
@@ -103,7 +103,7 @@ impl Catalog {
         }
     }
 
-    pub async fn get_file_from_iodd_finder(&self, vendorid: i32, iodd_id: i64, targetfilename: &str) {
+    async fn get_file_from_iodd_finder(&self, vendorid: i32, iodd_id: i64, targetfilename: &str) {
         let path = format!("{}{}.zip", IODDBASEPATH, targetfilename);
         let url : String = format!("https://ioddfinder.io-link.com/api/vendors/{vendorid}/iodds/{iodd_id}/files/zip/");
         info!("Downloading... from {} to {}", url, path);
@@ -113,7 +113,7 @@ impl Catalog {
         let _ = std::io::copy(&mut content, &mut file);
     }
 
-    pub fn get_file(&self, drivername: String) -> Vec<(String, Vec<u8>)> {
+    fn get_file(&self, drivername: String) -> Vec<(String, Vec<u8>)> {
         info!("Checking if file exists");
         let filepath = format!("../data/sensors/{}.zip", drivername);
         if !Path::new(&filepath).is_file() {
@@ -132,7 +132,7 @@ impl Catalog {
             .map(|(filename, _)| filename)
             .collect();
 
-        xml_files.sort_by(|a, b| a.len().cmp(&b.len()));
+        xml_files.sort_by_key(|a| a.len());
 
         files
     }

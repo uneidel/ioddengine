@@ -11,13 +11,13 @@ This Engine only targets Version 1.1 of IODD.
 
 
 Catalog:
-    - Store Information about VendorId, DeviceId and Productname and the correspoding IODD Zip File.
-    - Please note: Due to License restriction you need to manually download missing IODD Zip Files from [IODD-FInder](https://ioddfinder.io-link.com/) and place it into /data/download.
+    - Store Information about VendorId, DeviceId and Productname and the correspoding IODD Zip File.    
+    - FIXED! <del>Please note: Due to License restriction you need to manually download missing IODD Zip Files from [IODD-FInder](https://ioddfinder.io-link.com/) and place it into /data/download.</del>
 
 Engine:
     - allows to parse PDIn and settings of variables. ObserverMenu and ParameterMenu are implemented.
 
-Cli:
+Cli:    
     - allows cli based interactions with IODD Sensor
 
 IoTCoreConnect: 
@@ -65,3 +65,10 @@ Name: Durchfluss, Desc: Aktueller Durchfluss, Value: "OL", Unit: %
 Name: Temperatur, Desc: Aktuelle Temperatur, Value: 52.0, Unit: %
 Name: Schaltzustand [OUT2], Desc: Status abhängig von [OU2], Value: "inactiv"
 Name: Schaltzustand [OUT1], Desc: Status abhängig von [OU1], Value: "inactiv"
+
+
+
+# TODO
+1) Read Variables from Device before printing PDIN eg. Device could be set to Fahrenheit instead of Celsisus
+2) Do CRC32 Check - if possible
+2) Refactor code 

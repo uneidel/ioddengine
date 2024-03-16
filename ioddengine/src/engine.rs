@@ -100,13 +100,15 @@ impl<'a> Engine<'a> {
                     .variable;
                 let v = variables.iter().find(|v| v.id == variable).unwrap();
 
-                // TODO : currently the default value is used 
+                // TODO : currently the default value is used
                 // Query Device for current Variable Settings
-                
-                
+
                 if v.defaultValue.parse::<u8>().unwrap() == val {
                     m = menus.iter().find(|m| m.id == mr.menuid).unwrap();
-                    info!("Menu selected by Variable : {} with Value {}", v.id, v.defaultValue);
+                    info!(
+                        "Menu selected by Variable : {} with Value {}",
+                        v.id, v.defaultValue
+                    );
                     ml.push(m);
                 }
             }
@@ -116,7 +118,6 @@ impl<'a> Engine<'a> {
 
         ml
     }
-
 
     pub fn parse(&self, hexdata: &str) -> Result<Vec<DataPoint>, Box<dyn std::error::Error>> {
         let hex_pattern = regex::Regex::new(r"^[0-9A-Fa-f]+$").unwrap();
@@ -134,7 +135,7 @@ impl<'a> Engine<'a> {
             .processdatain;
 
         let id = &self.getmenu(&RoleSet::Observer, &RoleMenu::Observation);
-        info!("Oberservation Menu Id: {}",id.menuid);
+        info!("Oberservation Menu Id: {}", id.menuid);
         let menu = self.getmenubyid(id.menuid.clone());
         info!("Parse->Menu: {:?}", menu);
         Ok(self.parsedata(hexdata, pdin, menu))
@@ -146,9 +147,9 @@ impl<'a> Engine<'a> {
         pdin: &ioddmodel11::ProfileBody::ProcessDataCollection::ProcessDataIn,
         menu: Vec<&Menu>,
     ) -> Vec<DataPoint> {
-        let mut dp: Vec<DataPoint> = Vec::new();        
+        let mut dp: Vec<DataPoint> = Vec::new();
         let bitvec = Self::hex_string_to_bitvec(hexstring).unwrap();
-        info!("HexString: {}, BitVec: {:?}",hexstring,bitvec);
+        info!("HexString: {}, BitVec: {:?}", hexstring, bitvec);
         let _id = &pdin.Name.textid;
         let _datalength = pdin.bitlength;
 
@@ -214,7 +215,7 @@ impl<'a> Engine<'a> {
                         self,
                         rc,
                         menu,
-                        &bitvec,
+                        bitvec,
                         &mut bitcounter,
                         &mut counter,
                     );
@@ -226,7 +227,7 @@ impl<'a> Engine<'a> {
                         self,
                         rc,
                         menu,
-                        &bitvec,
+                        bitvec,
                         &mut bitcounter,
                         &mut counter,
                     );
@@ -238,7 +239,7 @@ impl<'a> Engine<'a> {
                         self,
                         rc,
                         menu,
-                        &bitvec,
+                        bitvec,
                         &mut bitcounter,
                         &mut counter,
                     );
@@ -250,7 +251,7 @@ impl<'a> Engine<'a> {
                         self,
                         rc,
                         menu,
-                        &bitvec,
+                        bitvec,
                         &mut bitcounter,
                         &mut counter,
                     );
@@ -273,17 +274,16 @@ impl<'a> Engine<'a> {
         counter: &mut usize,
     ) {
         let bitlength = rc.datatype.bit_length as usize;
-        let res = get_float32t(&bitvec, rc.bit_offset as usize);
+        let res = get_float32t(bitvec, rc.bit_offset as usize);
         *bitcounter += bitlength;
 
-        let (translatedname, translateddesc) = 
-        engine.resolve_names(&rc.name.textid, &rc.description.textid);
+        let (translatedname, translateddesc) =
+            engine.resolve_names(&rc.name.textid, &rc.description.textid);
 
         let rcitemref = Self::find_record_item(menu, rc.subindex as usize);
-       
 
         let total = res as f64;
-        let (abbr, total) = Self::process_recorditemref(engine,&rcitemref, total);
+        let (abbr, total) = Self::process_recorditemref(engine, &rcitemref, total);
 
         *counter += 1;
         data.push(DataPoint {
@@ -293,8 +293,6 @@ impl<'a> Engine<'a> {
             unit: abbr.to_string(),
         });
     }
-
-
 
     fn process_uintegert(
         data: &mut Vec<DataPoint>,
@@ -306,15 +304,15 @@ impl<'a> Engine<'a> {
         counter: &mut usize,
     ) {
         let bitlength = rc.datatype.bit_length as usize;
-        let res = get_uintegert(&bitvec, rc.bit_offset as usize, bitlength);
+        let res = get_uintegert(bitvec, rc.bit_offset as usize, bitlength);
         *bitcounter += bitlength;
 
-        let (translatedname, translateddesc) = 
-        engine.resolve_names(&rc.name.textid, &rc.description.textid);
+        let (translatedname, translateddesc) =
+            engine.resolve_names(&rc.name.textid, &rc.description.textid);
 
         let rcitemref = Self::find_record_item(menu, rc.subindex as usize);
-        let total = res as f64;       
-        let (abbr, total) = Self::process_recorditemref(engine,&rcitemref, total);
+        let total = res as f64;
+        let (abbr, total) = Self::process_recorditemref(engine, &rcitemref, total);
         *counter += 1;
         data.push(DataPoint {
             name: translatedname,
@@ -328,18 +326,18 @@ impl<'a> Engine<'a> {
         data: &mut Vec<DataPoint>,
         engine: &Engine,
         rc: &ioddmodel11::ProfileBody::ProcessDataCollection::RecordItem,
-        _menu: &Vec<&Menu>,
+        _menu: &[&Menu],
         bitvec: &BitVec,
         bitcounter: &mut usize,
         counter: &mut usize,
     ) {
         let _bitlength = rc.datatype.bit_length as usize;
-        
-        let boolean = get_booleant(&bitvec, *bitcounter);
+
+        let boolean = get_booleant(bitvec, *bitcounter);
         *bitcounter += 1;
 
-        let (translatedname, translateddesc) = 
-        engine.resolve_names(&rc.name.textid, &rc.description.textid);
+        let (translatedname, translateddesc) =
+            engine.resolve_names(&rc.name.textid, &rc.description.textid);
 
         let mut res = boolean.to_string();
         if !rc.datatype.singlevalue.is_empty() {
@@ -377,34 +375,30 @@ impl<'a> Engine<'a> {
         info!("Calculating {}", rc.name.textid.clone());
 
         let res = get_integert(
-            &bitvec,
+            bitvec,
             rc.bit_offset as usize,
             rc.datatype.bit_length as usize,
         );
         info!("Calculation done with Result: {}", res);
-       
-       
-        let rcitemref = Self::find_record_item(menu, rc.subindex as usize);
-        let total = res as f64;        
-        let (abbr, total) = Self::process_recorditemref(engine,&rcitemref, total); 
 
-        match engine.validate_single_value(&rc.datatype.singlevalue, res) {
-            Some(x) => {
-                info!("Single Value found.");
-                let dp = DataPoint {
-                    name: translatedname.clone(),
-                    description: translateddesc.clone(),
-                    value: x.into(),
-                    unit: abbr.to_string(),
-                };
-                data.push(dp);
-                return;
-            }
-            None => {}
+        let rcitemref = Self::find_record_item(menu, rc.subindex as usize);
+        let total = res as f64;
+        let (abbr, total) = Self::process_recorditemref(engine, &rcitemref, total);
+
+        if let Some(x) = engine.validate_single_value(&rc.datatype.singlevalue, res) {
+            info!("Single Value found.");
+            let dp = DataPoint {
+                name: translatedname.clone(),
+                description: translateddesc.clone(),
+                value: x.into(),
+                unit: abbr.to_string(),
+            };
+            data.push(dp);
+            return;
         }
 
         *bitcounter += rc.datatype.bit_length as usize;
-       
+
         let dp = DataPoint {
             name: translatedname,
             description: translateddesc,
@@ -414,7 +408,6 @@ impl<'a> Engine<'a> {
         data.push(dp);
         *counter += 1;
     }
-
 
     fn find_record_item(menu: &Vec<&Menu>, subindex: usize) -> Option<RecordItemRef> {
         for m in menu {
@@ -428,9 +421,8 @@ impl<'a> Engine<'a> {
     }
 
     fn hex_string_to_bitvec(hex_string: &str) -> Option<BitVec> {
-        
         let hex_string = hex_string.trim_start_matches("0x");
-    
+
         // Parse the hexadecimal string
         match hex::decode(hex_string) {
             Ok(bytes) => {
@@ -445,28 +437,23 @@ impl<'a> Engine<'a> {
             Err(_) => None, // Invalid hexadecimal string
         }
     }
-    fn process_recorditemref(engine: &Engine, rc : &Option<RecordItemRef>, total :f64) -> (String, f64){
+    fn process_recorditemref(
+        engine: &Engine,
+        rc: &Option<RecordItemRef>,
+        total: f64,
+    ) -> (String, f64) {
         info!("PROCESS_recorditemref: Total:{}, RC: {:?}", total, rc);
-        
+
         let abbr = match rc {
-            Some(rc) => {
-                match rc.unitcode {
-                    Some(uc) => engine.standards.get_abbr_by_code(uc),
-                    _ => String::new(),
-                }
+            Some(rc) => match rc.unitcode {
+                Some(uc) => engine.standards.get_abbr_by_code(uc),
+                _ => String::new(),
             },
-            _ => String::new()
+            _ => String::new(),
         };
         let total = match rc {
-            Some(x) => {
-                convert_to_humanformat(
-                    x.gradient,
-                    x.displayformat.clone(),
-                    x.offset,
-                    total,
-                )
-            }
-            _ => total
+            Some(x) => convert_to_humanformat(x.gradient, x.displayformat.clone(), x.offset, total),
+            _ => total,
         };
         (abbr, total)
     }
@@ -478,10 +465,7 @@ impl<'a> Engine<'a> {
         info!("SingleValue Raw: {}", res);
         let x = singlevalues.iter().find(|sv| sv.value == res.to_string());
 
-        match x {
-            Some(sv) => Some(self.resolve_textid(&sv.name.textid, self.language.as_str())),
-            _ => None,
-        }
+        x.map(|sv| self.resolve_textid(&sv.name.textid, self.language.as_str()))
     }
 
     fn resolve_names(&self, name_textid: &str, desc_textid: &str) -> (String, String) {
@@ -536,10 +520,7 @@ impl<'a> Engine<'a> {
                     .expect("Translation not found.");
                 let selected_text = selected_lang.text.iter().find(|id| id.id == textid);
 
-                match selected_text {
-                    Some(x) => Some(x.value.clone()),
-                    _ => None,
-                }
+                selected_text.map(|x| x.value.clone())
             }
         }
     }
