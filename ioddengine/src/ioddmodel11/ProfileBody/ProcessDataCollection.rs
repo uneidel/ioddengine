@@ -90,7 +90,7 @@ pub struct RecordItem {
     #[yaserde(rename = "subindex", attribute)]
     pub subindex: u8,
     #[yaserde(rename = "bitOffset", attribute)]
-    pub bit_offset: u8,
+    pub bit_offset: u16,
     #[yaserde(rename = "SimpleDatatype")]
     pub datatype: SimpleDatatype,
     #[yaserde(rename = "Name")]

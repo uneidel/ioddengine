@@ -44,7 +44,14 @@ Tested with the following  Devices:
 |   AUTOSEN|    85      |      AL009    |   X   |        |  X   |
 |   AUTOSEN|    16      |      AS001    |   X   |        |  X   |
 |  IFM     |  872       |     SD1540    |   X   |        | X    |
+|   IFM    |  1367      |  VVB001StatusB|  X    |         | x   |
 
+
+## Vendor: 310, ProductName:TN2405, Device:706
+HexData: 0330
+Name: Temperatur, Desc: Aktuelle Temperatur, Value: 20.4, Unit: °C
+Name: OUT2, Desc: Status abhängig von [OU2], Value: "inaktiv"
+Name: OUT1, Desc: Status abhängig von [OU1], Value: "inaktiv"
 
 ## Vendor: 837, ProductName:AL009, Device:85
 HexData: 0046FD0000190001   
@@ -89,7 +96,16 @@ HexData: 0020
 Name: Prozesswert, Desc: Abb. PDV1. Aktueller Prozesswert., Value: 2.0
 Name: Schaltzustand [OUT1], Desc: Abb. BDC1. Zustand abhängig von Einstellungen für BDC1., Value: "inaktiv"
 
-
+## Vendor: 310, ProductName:VVB001 Status B, Device:1367
+HexData: 004BFC00000EFF000005FF0000DFFF00001FFF00
+Name: Ermüdung (v-RMS), Desc: Geschwindigkeit Effektivwert, Value: 0.0075, Unit: m/s
+Name: Stoß (a-Peak), Desc: Beschleunigung Spitzenwert, Value: 1.4, Unit: m/s²
+Name: Reibung (a-RMS), Desc: Beschleunigung Effektivwert, Value: 0.5, Unit: m/s²
+Name: Temperatur, Desc: Aktuelle Temperatur, Value: 22.3, Unit: °C
+Name: Crest, Desc: Beschleunigung Crest-Faktor, Value: 3.1
+Name: Gerätestatus, Desc: Aktueller Gerätestatus, eine Kopie des Parameters [Gerätestatus, Index 36] im Prozessdatenkanal, Value: 0.0
+Name: OUT2, Desc: Aktueller Zustand des digitalen Signals [OUT2], Value: "OFF"
+Name: OUT1, Desc: Aktueller Zustand des digitalen Signals [OUT1], Value: "OFF"
 
 # TODO
 1) Read Variables from Device before printing PDIN eg. Device could be set to Fahrenheit instead of Celsisus

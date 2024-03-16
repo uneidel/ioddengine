@@ -3,14 +3,14 @@ use yaserde::*;
 
 
 
-
+/* 
 
 #[derive(Debug,  YaDeserialize)]
 pub struct RecordItem {
     #[yaserde(rename = "subindex", attribute)]
     subindex: u8,
     #[yaserde(rename = "bitOffset", attribute)]
-    bit_offset: u8,
+    bit_offset: u16,
     #[yaserde(rename = "SimpleDatatype")]
     datatype: SimpleDatatype,
     #[yaserde(rename = "Name")]
@@ -28,7 +28,7 @@ impl Default for RecordItem {
         }
     }
 }
-
+*/
 #[derive(YaDeserialize, Default, Debug)]
 #[yaserde(prefix = "xsi", rename = "SimpleDatatype")]
 pub struct SimpleDatatype {

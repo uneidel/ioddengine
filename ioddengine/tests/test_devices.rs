@@ -82,3 +82,33 @@ async fn test_kq5100_read(){
     let res = e.parse(hexdata).unwrap();
     assert_eq!(res[0].value,2.0);
 }
+
+#[tokio::test]
+async fn test_vvb001_status_b_read(){
+    
+    let hexdata = "004BFC00000EFF000005FF0000DFFF00001FFF00";
+    let catalog = ioddengine::catalog::Catalog::new_with_db(None);
+    let (drivername, files) = 
+    catalog.queryfordriver(1367, "VVB001 Status B".to_string(), 310).await;
+    let p = ioddengine::parser::Parser::new(drivername, files);
+    let e = Engine::new(&p.iodevice, "de");
+    
+    let res = e.parse(hexdata).unwrap();
+    assert_eq!(res[0].value,0.0075);
+    assert_eq!(res[1].value,1.4);
+}
+
+#[tokio::test]
+async fn test_2405_read(){
+    
+    let hexdata = "0330";
+    let catalog = ioddengine::catalog::Catalog::new_with_db(None);
+    let (drivername, files) = 
+    catalog.queryfordriver(706, "TN2405".to_string(), 310).await;
+    let p = ioddengine::parser::Parser::new(drivername, files);
+    let e = Engine::new(&p.iodevice, "de");
+    
+    let res = e.parse(hexdata).unwrap();
+    assert_eq!(res[0].value,20.4);
+    assert_eq!(res[0].unit,"°C");
+}
