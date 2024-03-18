@@ -1,4 +1,4 @@
-use ioddengine::engine::Engine;
+use ioddengine::{catalog::Catalog, engine::Engine};
 
 #[tokio::test]
 async fn test_as001_read(){
@@ -105,6 +105,21 @@ async fn test_2405_read(){
     let catalog = ioddengine::catalog::Catalog::new_with_db(None);
     let (drivername, files) = 
     catalog.queryfordriver(706, "TN2405".to_string(), 310).await;
+    let p = ioddengine::parser::Parser::new(drivername, files);
+    let e = Engine::new(&p.iodevice, "de");
+    
+    let res = e.parse(hexdata).unwrap();
+    assert_eq!(res[0].value,20.4);
+    assert_eq!(res[0].unit,"°C");
+}
+
+#[tokio::test]
+async fn test_2405_without_db_read(){
+    
+    let hexdata = "0330";
+    
+    let (drivername, files) = 
+    Catalog::query_in_memory(310,706, "TN2405").await.unwrap();
     let p = ioddengine::parser::Parser::new(drivername, files);
     let e = Engine::new(&p.iodevice, "de");
     

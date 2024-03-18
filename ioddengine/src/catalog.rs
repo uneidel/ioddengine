@@ -11,6 +11,8 @@ use std::path::Path;
 use std::path::PathBuf;
 use zip::ZipArchive;
 
+use anyhow::{Error, Result};
+
 pub struct Catalog {
     db: MicroKV,
 }
@@ -36,6 +38,23 @@ impl Catalog {
             .set_auto_commit(true)
             .with_pwd_clear(pwd)
     }
+    pub async fn query_in_memory(vendorid: i32, deviceid: i32, product_name: &str) -> Result<(String, Vec<(String, Vec<u8>)>)>{
+        info!(
+            "DeviceId: {}, Product_Name:{}, VendorId:{}",
+            deviceid,
+            product_name.clone(),
+            vendorid
+        );
+        
+        let catalogentry = Self::query_iodd_finder(vendorid, deviceid, product_name.to_string()).await?;   
+        info!("Driver: {:?}", &catalogentry.content);
+        let drivername: String = catalogentry.get_drivername().unwrap();
+        
+        let zip = Self::store_retrieved_file(vendorid, catalogentry.content[0].iodd_id).await?;
+
+        let files = Self::extract_zip_to_vec(zip.as_slice())?;
+        Ok((drivername, files))
+    }
 
     pub async fn queryfordriver(
         &self,
@@ -55,7 +74,7 @@ impl Catalog {
         let filepath = format!("{}{}.zip", IODDBASEPATH, drivername);
         if !Path::new(&filepath).is_file() {
             info!("Need to download first");
-            self.get_file_from_iodd_finder(vendorid, entry.content[0].iodd_id, entry.get_drivername().unwrap().as_str()).await;
+            Self::get_file_from_iodd_finder(vendorid, entry.content[0].iodd_id, entry.get_drivername().unwrap().as_str()).await;
         }
 
         let files = self.get_file(drivername.clone());
@@ -81,7 +100,12 @@ impl Catalog {
                 warn!("Not found.");
             }
         }
+        let catalogentry = Self::query_iodd_finder(vendorid, deviceid, product_name).await?;   
+        let _ = self.db.put(key, &catalogentry);
+        Ok(catalogentry)
+    }
 
+    async fn query_iodd_finder(vendorid: i32, deviceid: i32, product_name: String) -> Result<CatalogEntry>{
         let url = format!("https://ioddfinder.io-link.com/api/drivers?deviceId={deviceId}&vendorId={vendorId}&ioLinkRev=1.1&productName={productName}", deviceId = deviceid, vendorId = vendorid, productName = product_name);
         let response = reqwest::get(&url).await?; // Await the response
 
@@ -91,27 +115,32 @@ impl Catalog {
             let body_str = String::from_utf8(body.to_vec())?;
             let root: CatalogEntry = serde_json::from_str(&body_str)?;
             //adding to db
-            let _ = self.db.put(key, &root);
-
             Ok(root)
         } else {
             println!("Request failed with status code: {}", response.status());
-            Err(Box::new(std::io::Error::new(
-                std::io::ErrorKind::Other,
-                "Request failed",
-            )))
+            Err(Error::msg("Iodd Finder Something went wrong!"))
         }
     }
-
-    async fn get_file_from_iodd_finder(&self, vendorid: i32, iodd_id: i64, targetfilename: &str) {
-        let path = format!("{}{}.zip", IODDBASEPATH, targetfilename);
+    async fn store_retrieved_file(vendorid: i32, iodd_id: i64) -> Result<Vec<u8>>{
         let url : String = format!("https://ioddfinder.io-link.com/api/vendors/{vendorid}/iodds/{iodd_id}/files/zip/");
-        info!("Downloading... from {} to {}", url, path);
-        let response = reqwest::get(url).await.unwrap();
-        let mut file = std::fs::File::create(path).unwrap();
-        let mut content =  Cursor::new(response.bytes().await.unwrap());
-        let _ = std::io::copy(&mut content, &mut file);
+        info!("Downloading... from {}", url);
+        let response = reqwest::get(url).await?;
+
+        Ok(response.bytes().await?.to_vec())
     }
+
+    async fn get_file_from_iodd_finder(vendorid: i32, iodd_id: i64, targetfilename: &str) -> Result<()> {
+        let path = format!("{}{}.zip", IODDBASEPATH, targetfilename);
+        let url = format!("https://ioddfinder.io-link.com/api/vendors/{}/iodds/{}/files/zip/", vendorid, iodd_id);
+        info!("Downloading from {} to {}", url, path);
+        let data = Self::store_retrieved_file(vendorid, iodd_id).await?;
+        let mut file = File::create(path)?;
+        file.write_all(&data)?;
+        
+        Ok(())
+    }
+
+
 
     fn get_file(&self, drivername: String) -> Vec<(String, Vec<u8>)> {
         info!("Checking if file exists");
@@ -125,7 +154,7 @@ impl Catalog {
             std::process::exit(-1);
         }
 
-        let files = self.extract(filepath.as_str());
+        let files = self.extract(filepath.as_str()).unwrap();
         let mut xml_files: Vec<&String> = files
             .iter()
             .filter(|(filename, _)| filename.ends_with(".xml"))
@@ -137,20 +166,17 @@ impl Catalog {
         files
     }
 
-    fn extract_zip_to_ramdisk(&self, zip_file_path: &str) -> io::Result<Vec<(String, Vec<u8>)>> {
-        // Open the ZIP file
-        let file = File::open(zip_file_path)?;
-        let mut archive = ZipArchive::new(file)?;
-        let mut ramdisk: Vec<u8> = Vec::new();
+    fn extract_zip_to_vec(data: &[u8]) -> io::Result<Vec<(String, Vec<u8>)>> {
+        let mut archive = ZipArchive::new(Cursor::new(data))?;
         let mut files: Vec<(String, Vec<u8>)> = Vec::new();
-
+    
         for i in 0..archive.len() {
             let mut zip_file = archive.by_index(i)?;
-
+    
             // Read the file content into a buffer
             let mut buffer = Vec::new();
             zip_file.read_to_end(&mut buffer)?;
-
+    
             // Decompress if necessary (e.g., if the file is gzipped)
             if zip_file.name().ends_with(".gz") {
                 let mut decoder = GzDecoder::new(Cursor::new(buffer));
@@ -158,24 +184,13 @@ impl Catalog {
                 decoder.read_to_end(&mut decompressed_buffer)?;
                 buffer = decompressed_buffer;
             }
-
-            // Push the content of the file into the RAM disk
-            ramdisk.extend_from_slice(&buffer);
-
+    
             // Store the file name and its content
             files.push((zip_file.name().to_string(), buffer));
         }
-
-        // Write the RAM disk content to a temporary file
-        let mut tmpfile = tempfile::tempfile()?;
-        tmpfile.write_all(&ramdisk)?;
-
-        // Map the temporary file to memory
-        let _mmap = unsafe { MmapOptions::new().map(&tmpfile)? };
-
+    
         Ok(files)
     }
-
     #[allow(unused)]
     fn is_valid_filename(filename: &str) -> bool {
         // Define the regular expression pattern
@@ -186,8 +201,12 @@ impl Catalog {
         regex.is_match(filename)
     }
 
-    fn extract(&self, fname: &str) -> Vec<(String, Vec<u8>)> {
-        let filescnt = self.extract_zip_to_ramdisk(fname);
+    fn extract(&self, fname: &str) -> Result<Vec<(String, Vec<u8>)>> {
+        let mut file = File::open(fname)?;
+        let mut buffer = Vec::new();
+        file.read_to_end(&mut buffer)?;
+
+        let filescnt = Self::extract_zip_to_vec(&buffer);
         let files = filescnt.unwrap();
         let mut xml_files: Vec<&(String, Vec<u8>)> = files
             .iter()
@@ -195,7 +214,7 @@ impl Catalog {
             .collect();
 
         xml_files.sort_by_key(|(filename, _)| filename.len());
-        files
+        Ok(files)
     }
 }
 
