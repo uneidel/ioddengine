@@ -109,6 +109,7 @@ Name: OUT1, Desc: Aktueller Zustand des digitalen Signals [OUT1], Value: "OFF"
 
 # TODO
 1) Read Variables from Device before printing PDIN eg. Device could be set to Fahrenheit instead of Celsisus
+2) Decide if zip file is stored locally
 2) Do CRC32 Check - if possible
 3) Refactor code 
 4) Github Actions

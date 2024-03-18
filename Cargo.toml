@@ -9,3 +9,6 @@ edition = "2021"
 [lib]
 name = "your_library_name"
 path = "src/lib.rs"
+
+[dependencies]
+anyhow = "1.0.81"
