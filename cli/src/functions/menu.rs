@@ -1,4 +1,7 @@
 
+use std::env::var;
+
+use ioddengine::ioddmodel11::ProfileBody::VariableCollection::Variable;
 use ioddengine::{engine::Engine,  parser::Parser, catalog::Catalog};
 use ioddengine::ioddmodel11::IODevice::*;
 pub async fn getmenu(vendorid : &i32, deviceid : &i32, productname : &str, role :&str, menu : &str,accessrights : &Option<String>){
@@ -25,49 +28,42 @@ pub async fn getmenu(vendorid : &i32, deviceid : &i32, productname : &str, role 
     let e = Engine::new(&p.iodevice, super::super::LANGLOCALE);
     
     let menu = e.getmenu(&roleset, &rolemenu);
-    
-    let m = e.getmenubyid(menu.menuid.clone());
-    //println!("Menu: {:?}", m);
+    println!("MenuID: {}", menu.menuid.clone());
+    let menus = e.getmenubyid(menu.menuid.clone());
     // now get all variables for menu
-    for x in m {
-        let trans = e.resolve_textid(x.name.textid.as_str(), "de");
-        println!("\x1b[1mName:\x1b[1m {} - \x1b[1mDescription:\x1b[1m {}", x.id, trans);
+    let mut variables: Vec<&Variable> = Vec::new();
+    for x in menus {
+        let trans = e.resolve_textid(x.name.textid.as_str(),super::super::LANGLOCALE);
+        println!("\x1b[1mMenuname:\x1b[1m {} - \x1b[1mDescription:\x1b[1m {}", x.id, trans);
 
-        let vars = &x.variableref;
-        
-        for v in vars {
-            let rv = e.get_iodevice()
-                .profilebody
-                .device_function
-                .variablecollection
-                .variable
-                .iter()
-                .find(|vs| vs.id == v.variableId);
 
-                let resolvedrv = match rv {
-                    Some(x) => x,
-                    _ => match e.get_standards().definitions.variablecollection.variable.iter().find(|vs| vs.id == v.variableId) {
-                        Some(x) => x,
-                        None => panic!("no variable found"),
-                    },
-                };
-                
-            let realname = e.resolve_textid(resolvedrv.Name.textid.as_str(), "de");
-            let realdesc = e.resolve_textid(resolvedrv.Description.textid.as_str(), "de");
+        for rcref in &x.recorditemref{            
+            let v =  e.findvariablebyid(&rcref.variableId).unwrap();
+            variables.push(v);
+           
+        }           
+        for v in &x.variableref {           
+            let rv = e.findvariablebyid(&v.variableId).unwrap();
+            variables.push(rv);
+        } 
+      
+        for v in &variables{      
+            let realname = e.resolve_textid(v.Name.textid.as_str(),super::super::LANGLOCALE);
+            let realdesc = e.resolve_textid(v.Description.textid.as_str(),super::super::LANGLOCALE);
            
             match &accessrights {
                 Some(x) => {
                     if x.to_lowercase() == v.accessrights {
                         println!(
-                            "\x1b[1mVariable:\x1b[0m {}  \x1b[1mRealName:\x1b[0m {}  \x1b[1mDesc:\x1b[0m {}  \x1b[1mACCESS:\x1b[0m {}",
-                            v.variableId, realname, realdesc, v.accessrights
+                            "   \x1b[1mVariable:\x1b[0m {}  \x1b[1mRealName:\x1b[0m {}  \x1b[1mDesc:\x1b[0m {}  \x1b[1mACCESS:\x1b[0m {}",
+                            v.id, realname, realdesc, v.accessrights
                         );
                     }
                 }
                 None => {
                     println!(
-                        "\x1b[1mVariable:\x1b[0m {}  \x1b[1mRealName:\x1b[0m {}  \x1b[1mDesc:\x1b[0m {}  \x1b[1mACCESS: {}",
-                        v.variableId, realname, realdesc, v.accessrights
+                        "   \x1b[1mVariable:\x1b[0m {}  \x1b[1mRealName:\x1b[0m {}  \x1b[1mDesc:\x1b[0m {}  \x1b[1mACCESS: {}",
+                        v.id, realname, realdesc, v.accessrights
                     );
                 }
             };

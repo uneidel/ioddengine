@@ -118,7 +118,7 @@ enum Commands {
         param : String},
 }
 
-pub const LANGLOCALE :&str ="de";
+pub const LANGLOCALE :&str ="en";
 
 #[tokio::main]
 async fn main() {

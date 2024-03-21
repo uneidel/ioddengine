@@ -9,22 +9,21 @@ pub async fn get_variable(deviceid : &i32, productname : &str, vendorid:&i32, id
     let (drivername,files) = catalog.queryfordriver(*deviceid, productname.to_owned(), *vendorid).await;
     let p = Parser::new(drivername, files);
     let e = Engine::new(&p.iodevice, super::super::LANGLOCALE);
-    let v = e.findvariablebyid(id);
+    let v = e.findvariablebyid(id).expect("Variable not found");
     let realname = e.resolve_textid(v.Name.textid.as_str(), super::super::LANGLOCALE);
     let realdesc = e.resolve_textid(v.Description.textid.as_str(), super::super::LANGLOCALE);
     println!("VariableName: {} -  Desc: {}", realname, realdesc);
 
     for rc in &v.datatype.recorditem{
-        println!("DataType: {} with Index: {} ",rc.datatype.datatype, rc.subindex);
+        let rcname = e.resolve_textid(rc.name.textid.as_str(), super::super::LANGLOCALE);
+        println!("Name: {}, DataType: {} with Index: {} ",rcname, rc.datatype.datatype, rc.subindex);        
+        if let Some(vr) =   &rc.datatype.valuerange {            
+            println!("LowerValue: {}, UpperValue: {}", vr.lowervalue, vr.uppervalue);
+        }        
         for xx in &rc.datatype.singlevalue{
             let xyz = e.resolve_textid(xx.name.textid.as_str(), super::super::LANGLOCALE);
             println!("  Name: {} - Value: {}", xyz, xx.value);
         }
-    }
-
-    for xx in &v.datatype.singlevalue{
-        let xyz = e.resolve_textid(xx.name.textid.as_str(), "de");
-        println!("Name: {} - Value: {}", xyz, xx.value);
     }
 }
 pub async fn getall_variable(deviceid : &i32, productname : &str, vendorid:&i32,accessrights : &Option<String>){
@@ -62,7 +61,7 @@ pub async fn getall_variable(deviceid : &i32, productname : &str, vendorid:&i32,
     fullvec.sort_by_key(| k | &k.index);
 
     for v in fullvec{
-        println!("id: {} - Name: {} - Index: {} - accessrights: {}",v.id.clone(),e.resolve_textid(v.Name.textid.as_str(), "en"),  v.index, v.accessrights,);
+        println!("id: {} - Name: {} - Index: {} - accessrights: {}",v.id.clone(),e.resolve_textid(v.Name.textid.as_str(), "en"),  v.index, v.accessrights);
     }
 }
 
