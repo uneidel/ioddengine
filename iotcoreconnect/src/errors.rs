@@ -8,7 +8,7 @@ pub type HttpResult<T> = Result<T, IotCoreError>;
 pub enum IotCoreError {
     DeviceNotFound,
     HttpError(String),
-    OtherError,
+    OtherError(String),
 }
 
 impl From<Error> for IotCoreError {
@@ -46,7 +46,7 @@ impl fmt::Display for IotCoreError {
         match self {
             IotCoreError::DeviceNotFound => write!(f, "Device not found"),
             IotCoreError::HttpError(msg) => write!(f, "HTTP error: {}", msg),
-            IotCoreError::OtherError => write!(f, "Other error"),
+            IotCoreError::OtherError(err) => write!(f, "Other error: {}", err),
         }
     }
 }
@@ -56,7 +56,7 @@ impl StdError for IotCoreError {
         match *self {
             IotCoreError::DeviceNotFound => "Device not found",
             IotCoreError::HttpError(ref msg) => msg,
-            IotCoreError::OtherError => "Other error",
+            IotCoreError::OtherError(ref err) => err,
         }
     }
 }

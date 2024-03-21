@@ -1,3 +1,5 @@
+
+
 use crate::ioddmodel11::IODevice::{RoleMenu, RoleSet};
 use crate::ioddmodel11::ProfileBody::DeviceFunction::MenuSet;
 use crate::ioddmodel11::ProfileBody::MenuCollection::*;
@@ -9,7 +11,7 @@ use crate::utils::format::convert_to_humanformat;
 use bitvec::prelude::*;
 use log::{info, trace, warn};
 use serde_json::Value;
-
+use anyhow::{Result,Error};
 pub struct Engine<'a> {
     iodevice: &'a ioddmodel11::IODevice::IODevice,
     standards: Standards,
@@ -54,16 +56,22 @@ impl<'a> Engine<'a> {
             .unwrap();
         var
     }
-    pub fn findvariablebyid(&self, id: &str) -> &Variable {
+    pub fn findvariablebyid(&self, id: &str) -> Result<&Variable> {
         let varcoll = &self.iodevice.profilebody.device_function.variablecollection;
         let var = varcoll
             .variable
             .iter()
-            .find(|x| x.id.to_lowercase() == id.to_lowercase())
-            .unwrap();
-        var
+            .find(|x| x.id.to_lowercase() == id.to_lowercase());
+        
+        match var{
+            Some(v) => Ok(v),
+            None => match self.get_standards().definitions.variablecollection.variable
+            .iter().find(|vs| vs.id == id) {
+                    Some(x) => Ok(x),
+                    None =>  Err(Error::msg("variable not found.")),
+            }       
+        }
     }
-
     pub fn getmenubyid(&self, id: String) -> Vec<&Menu> {
         let menus = &self
             .iodevice
@@ -73,13 +81,12 @@ impl<'a> Engine<'a> {
             .menucollection
             .menu;
         let mut ml: Vec<&Menu> = Vec::new();
-        trace!("Checking for ID : {}", id);
-        let mut m = menus.iter().find(|m| m.id == id).unwrap();
-        info!("Menu :{:?}", m);
-
+        info!("Checking for ID : {}", id);
+        let mut m = menus.iter().find(|m| m.id.eq(&id)).unwrap();
+        
         if !m.menuref.is_empty() {
             for mr in &m.menuref {
-                trace!("MenuRef: {:?}", mr);
+                info!("XxX MenuRef: {:?}", mr);
                 let c = match mr.condition.as_ref() {
                     Some(x) => x,
                     None => {
@@ -531,4 +538,15 @@ pub struct DataPoint {
     pub description: String,
     pub value: Value,
     pub unit: String,
+}
+
+
+
+pub fn GetError(val : &str) -> String{
+
+    match val{
+        "8030" => "Value out of Range".to_string(),
+        _ => "unknown error code".to_string()
+    }
+
 }

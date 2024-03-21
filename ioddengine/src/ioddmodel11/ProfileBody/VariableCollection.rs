@@ -102,7 +102,7 @@ pub struct Datatype {
     #[yaserde(child, rename = "ValueRange")]
     pub valuerange: Option<ValueRange>,
 
-    #[yaserde(rename = "SingleValue")]
+    #[yaserde(child,rename = "SingleValue")]
     pub singlevalue : Vec<SingleValue>,
     #[yaserde(child,rename="RecordItem")]
     pub recorditem : Vec<RecordItem>

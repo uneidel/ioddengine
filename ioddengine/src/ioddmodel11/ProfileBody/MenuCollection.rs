@@ -98,4 +98,54 @@ pub struct VariableRef {
     pub variableId: String,
     #[yaserde(rename = "accessRightRestriction", attribute)]
     pub accessrights: String,
+    #[yaserde(rename = "displayFormat", attribute)]
+    pub displayformat: Option<String>,
+    #[yaserde(rename = "gradient", attribute)]
+    pub gradient: Option<f32>,
+    #[yaserde(rename = "offset", attribute)]
+    pub offset: Option<u8>,
+    #[yaserde(rename = "unitCode", attribute)]
+    pub unitcode: Option<u32>,
+}
+
+
+pub trait CommonAttributes {
+    fn gradient(&self) -> Option<f32>;
+    fn subindex(&self) -> u8;
+    fn offset(&self) -> Option<u8>;
+    fn unitcode(&self) -> Option<u32>;
+}
+
+impl CommonAttributes for RecordItemRef {
+    fn gradient(&self) -> Option<f32> {
+        self.gradient
+    }
+    fn subindex(&self) -> u8 {
+        self.subindex
+    }
+    fn offset(&self) -> Option<u8> {
+        self.offset
+    }
+    fn unitcode(&self) -> Option<u32> {
+        self.unitcode
+    }
+}
+
+impl CommonAttributes for VariableRef {
+    fn gradient(&self) -> Option<f32> {
+        self.gradient
+    }
+    fn subindex(&self) -> u8 {
+        // For VariableRef, there's no subindex field, so you might return a default value or panic, depending on your application logic.
+        // For demonstration, I'll return 0 here.
+        0
+    }
+
+    fn offset(&self) -> Option<u8> {
+        self.offset
+    }
+
+    fn unitcode(&self) -> Option<u32> {
+        self.unitcode
+    }
 }

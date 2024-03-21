@@ -118,7 +118,7 @@ pub struct SimpleDatatype {
     #[yaserde(rename = "encoding")]
     pub encoding: String,
     #[yaserde(rename = "ValueRange")]
-    pub valuerange : ValueRange,
+    pub valuerange : Option<ValueRange>,
     #[yaserde(rename = "SingleValue")]
     pub singlevalue : Vec<SingleValue>
 }

@@ -36,7 +36,7 @@ impl HttpClient {
         info!("Response: {:?}", data);
         let response: ResponseData = match serde_json::from_str(&data) {
             Ok(res) => res,
-            Err(_) => return Err(IotCoreError::OtherError) 
+            Err(err) => return Err(IotCoreError::OtherError(err.to_string())) 
         };
        
         match response.code {
@@ -55,9 +55,10 @@ impl HttpClient {
         );
         
         let response =self.senddata(portnumber,4711, "iolinkdevice/iolreadacyclic", &data).await;
-        match response{
+        match  response{
             Ok(Value::String(string_value)) => Ok(string_value),
-            _ => Err(IotCoreError::OtherError)
+            Err(err) => Err(IotCoreError::OtherError(err.to_string())), 
+            _ => panic!("TODO")
         }
     }
     pub async fn setparameter(&self, portnumber : &usize, index: &usize, subindex : &usize, hexdata :&String){
@@ -106,7 +107,7 @@ impl HttpClient {
                 "code" : "request",
                 "cid"  : {}, 
                 "adr"  : "/iolinkmaster/port[{}]/{}",
-                "data" :{}
+                "data" : {}
             }}"#,
             cid,portnumber, info, data
         );
@@ -115,7 +116,7 @@ impl HttpClient {
         info!("Response: {:?}", data);
         let response: ResponseData = match serde_json::from_str(&data) {
             Ok(res) => res,
-            Err(_) => return Err(IotCoreError::OtherError) 
+            Err(err) => return Err(IotCoreError::OtherError(err.to_string())) 
         };
        
         match response.code {
@@ -138,7 +139,7 @@ impl HttpClient {
         info!("Response: {:?}", data);
         let response: ResponseData = match serde_json::from_str(&data) {
             Ok(res) => res,
-            Err(_) => return Err(IotCoreError::OtherError) 
+            Err(err) => return Err(IotCoreError::OtherError(err.to_string())) 
         };
        
         match response.code {
