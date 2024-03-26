@@ -26,7 +26,7 @@ This Engine only targets Version 1.1 of IODD.
 
 This Code is licensed under Apache 2.0.
 
-Due to potential License Issues you need to download the [Standard Definitions](https://io-link.com/share/Downloads/Spec-IODD/IO-Device-Desc-Spec_10012_V113_Feb24.zip) manually in place it into /data/specs.
+Additional needed files [Standard Definitions](https://io-link.com/share/Downloads/Spec-IODD/IO-Device-Desc-Spec_10012_V113_Feb24.zip) manually in place it into /data/specs.
 
 Please see CLI for further information how to work with Library.
 
