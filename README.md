@@ -29,9 +29,7 @@ This Code is licensed under Apache 2.0.
 Additional needed files [Standard Definitions](https://io-link.com/share/Downloads/Spec-IODD/IO-Device-Desc-Spec_10012_V113_Feb24.zip) manually in place it into /data/specs.
 
 Please see CLI for further information how to work with Library.
-
-
-this library was tested with serveral io-link devices.
+This library was tested with serveral io-link devices.
 
 ### example output
 Vendor: 310, ProductName:SD1540, Device:872
@@ -75,7 +73,7 @@ cargo run get-menu  --vendorid 310 --deviceid 706 --productname TN2405 --role ob
 
 
 ### example 
-```json
+```rust
     let catalog = Catalog::new_with_db(None);
     let (drivername,files) = catalog.queryfordriver(*deviceid, productname.to_owned(), *vendorid).await;
     let p = Parser::new(drivername, files);
