@@ -106,3 +106,6 @@ cargo run get-menu  --vendorid 310 --deviceid 706 --productname TN2405 --role ob
 - [ ] Update Github Actions
 - [ ] Some more Documentation
 - [ ] Adding more Encoder DataTypes
+
+please note: 
+In the event of any potential copyright violations, we kindly request that you contact the owner or administrator of the content in question before taking any further action. It is essential to address such matters through respectful and constructive communication to ensure that any concerns are properly addressed and resolved in accordance with applicable laws and regulations. By reaching out to the content owner first, we aim to foster a collaborative approach to resolving any copyright issues while upholding the integrity of intellectual property rights. Thank you for your understanding and cooperation in this matter.
