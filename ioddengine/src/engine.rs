@@ -541,8 +541,9 @@ pub struct DataPoint {
 }
 
 
-
-pub fn GetError(val : &str) -> String{
+/// this function should return IO Link specific errors 
+/// there is no overview about the errorcodes
+pub fn get_error(val : &str) -> String{
 
     match val{
         "8030" => "Value out of Range".to_string(),

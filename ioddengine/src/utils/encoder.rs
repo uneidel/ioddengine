@@ -1,8 +1,5 @@
-use std::collections::HashMap;
-
 use crate::ioddmodel11::IODevice::{RoleMenu, RoleSet};
-use crate::ioddmodel11::ProfileBody::DeviceFunction::RoleMenuSet;
-use crate::ioddmodel11::ProfileBody::MenuCollection::{CommonAttributes, Menu, RecordItemRef};
+use crate::ioddmodel11::ProfileBody::MenuCollection::{Menu, RecordItemRef};
 use crate::utils::format::*;
 use crate::{engine::Engine, ioddmodel11::ProfileBody::common::ValueRange};
 use bitvec::prelude::*;
@@ -16,17 +13,15 @@ impl<'a> Engine<'a> {
         let input: Vec<&str> = param.split(',').collect();
         //We use only the specialist Menu
         let menu = &self.getmenu(&RoleSet::Specialist, &RoleMenu::Parameter);
-        
+
         match v.datatype.datatype.as_str() {
             "RecordT" => {
-
                 let datalength = v.datatype.bitlength as usize;
                 info!("DataLength: {}", datalength);
-                let mut bitvec: BitVec = std::iter::repeat(false).take(datalength).collect();               
+                let mut bitvec: BitVec = std::iter::repeat(false).take(datalength).collect();
                 let menus = self.getmenubyid(menu.menuid.clone());
                 let corrections = self.get_recorditemref(&menus, v.id.as_str());
                 for ri in &v.datatype.recorditem {
-
                     let subindex = ri.subindex as usize;
                     let offset = ri.bit_offset as usize;
                     match ri.datatype.datatype.as_str() {
@@ -37,27 +32,33 @@ impl<'a> Engine<'a> {
                             bitvec.set(offset, val);
                         }
                         "UIntegerT" => {
-                            
-                            let mut val: f64 =  match parse_numeric(input[subindex - 1]){
+                            let mut val: f64 = match parse_numeric(input[subindex - 1]) {
                                 Some(x) => x,
-                                None => panic!("Conversion to UInteger failed.")
+                                None => panic!("Conversion to UInteger failed."),
                             };
-                            
+
                             if !corrections.is_empty() {
                                 info!("Looking for Gradient for {} and subindex {}", id, subindex);
-                                let has_matching_element = corrections.iter().any(|x| x.variableId == id && x.subindex as usize == subindex);
+                                let has_matching_element = corrections
+                                    .iter()
+                                    .any(|x| x.variableId == id && x.subindex as usize == subindex);
                                 if has_matching_element {
                                     info!("Applying gradient");
-                                    let matching_element = corrections.iter().find(|x| x.variableId == id && x.subindex as usize == subindex).unwrap();
-                                    
+                                    let matching_element = corrections
+                                        .iter()
+                                        .find(|x| {
+                                            x.variableId == id && x.subindex as usize == subindex
+                                        })
+                                        .unwrap();
+
                                     // Perform calculation using the matching element
-                                    val = (val - matching_element.offset.unwrap() as f64) 
-                                            / matching_element.gradient.unwrap() as f64;
+                                    val = (val - matching_element.offset.unwrap() as f64)
+                                        / matching_element.gradient.unwrap() as f64;
                                     info!("Value after Gradient: {}", val);
-                                } 
+                                }
                             }
                             let vl = &ri.datatype.valuerange;
-                            validaterange(vl,val);
+                            validaterange(vl, val);
                             encode_uintegert(
                                 &mut bitvec,
                                 offset,
@@ -87,7 +88,9 @@ impl<'a> Engine<'a> {
     pub fn get_recorditemref(&self, menus: &[&Menu], variableid: &str) -> Vec<RecordItemRef> {
         let mut rcrefs: Vec<RecordItemRef> = Vec::new();
         for x in menus {
-            let matching_rcs = x.recorditemref.iter()
+            let matching_rcs = x
+                .recorditemref
+                .iter()
                 .filter(|rc| rc.variableId == *variableid)
                 .cloned(); // Cloning each matching record item reference
             rcrefs.extend(matching_rcs);
@@ -114,20 +117,14 @@ impl<'a> Engine<'a> {
 
 /// panics if number outside range
 fn validaterange(range: &Option<ValueRange>, val: f64) {
-    match range {
-        Some(r) => {
-            
-            info!(
-                "CurrentVal: {}, LowerRange: {}, UpperRange:{}",
-                val,
-                r.lowervalue,
-                r.uppervalue
-            );
-            if r.lowervalue > val || val > r.uppervalue {
-                panic!("Value outside range");
-            }
+    if let Some(r) = range {
+        info!(
+            "CurrentVal: {}, LowerRange: {}, UpperRange:{}",
+            val, r.lowervalue, r.uppervalue
+        );
+        if r.lowervalue > val || val > r.uppervalue {
+            panic!("Value outside range");
         }
-        _ => {}
     }
 }
 pub fn encode_uintegert(bitvec: &mut BitVec, offset: usize, bitlength: usize, nbr: &str) {

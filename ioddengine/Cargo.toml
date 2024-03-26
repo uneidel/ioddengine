@@ -1,43 +1,34 @@
 [package]
-name = "ioddengine"
-version = "0.1.0"
+name = "iodd11-engine"
+version = "0.1.3"
 edition = "2021"
-
-
+description = "IODD 1.1 Engine"
+authors = ["uneidel <uneidel@octonion.de>"]
+repository = "https://github.com/uneidel/ioddengine"
+keywords = []
+categories = []
+license = "MIT"
+readme = "README.md"
 
 [dependencies]
-bit-vec = "0.6.3"
-bitflags = "2.4.2"
 bitvec = "1.0.1"
 crc32fast = "1.4.0"
 hex = "0.4.3"
-log = "0.4.20"
 quick-xml = "0.31.0"
 regex = "1.10.3"
 serde = { version = "1.0.195", features = ["derive"] }
-serde-xml-rs = "0.6.0"
 serde_json = "1.0.114"
-xmlserde = "0.7.0"
-xmlserde_derives = "0.7.0"
+log = "0.4.20"
 yaserde = { version = "0.9.1", features = ["yaserde_derive"] }
 reqwest = { version = "0.11.23", features = ["blocking"] }
-
 microkv = "0.2.9"
 flate2 = "1.0"
-memmap = "0.7"
 zip = "0.6.6"
-tempfile = "3.9.0"
-
 tokio = { version = "1.36.0", features = ["full"] }
 anyhow = "1.0.81"
 
 [dev-dependencies]
 criterion = { version = "0.5.1", features = ["html_reports"] }
-
-
-[lib]
-[target.'cfg(target_arch = "wasm32")']
-crate-type = ["cdylib"]
 
 
 [[bench]]

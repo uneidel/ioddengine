@@ -1,14 +1,13 @@
-workspace = {members  =[ "ioddengine", "wasm","cli", "iotcoreconnect"]}
-
-[package]
-name = "ioddlib"
-version = "0.1.0"
-edition = "2021"
+[workspace]
+workspace = {members  =[ "ioddengine","ioddcli", "iotcoreconnect"]}
 
 
-[lib]
-name = "your_library_name"
-path = "src/lib.rs"
 
-[dependencies]
-anyhow = "1.0.81"
+
+
+# Uncomment this for profiling.
+#[profile.release]
+#debug = true
+
+
+

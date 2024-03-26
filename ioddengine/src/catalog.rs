@@ -1,6 +1,5 @@
 use flate2::read::GzDecoder;
 use log::{info, warn};
-use memmap::MmapOptions;
 use microkv::MicroKV;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
@@ -42,7 +41,7 @@ impl Catalog {
         info!(
             "DeviceId: {}, Product_Name:{}, VendorId:{}",
             deviceid,
-            product_name.clone(),
+            product_name,
             vendorid
         );
         
@@ -74,7 +73,7 @@ impl Catalog {
         let filepath = format!("{}{}.zip", IODDBASEPATH, drivername);
         if !Path::new(&filepath).is_file() {
             info!("Need to download first");
-            Self::get_file_from_iodd_finder(vendorid, entry.content[0].iodd_id, entry.get_drivername().unwrap().as_str()).await;
+            let _ = Self::get_file_from_iodd_finder(vendorid, entry.content[0].iodd_id, entry.get_drivername().unwrap().as_str()).await;
         }
 
         let files = self.get_file(drivername.clone());
@@ -166,18 +165,17 @@ impl Catalog {
         files
     }
 
-    fn extract_zip_to_vec(data: &[u8]) -> io::Result<Vec<(String, Vec<u8>)>> {
+    pub fn extract_zip_to_vec(data: &[u8]) -> io::Result<Vec<(String, Vec<u8>)>> {
         let mut archive = ZipArchive::new(Cursor::new(data))?;
         let mut files: Vec<(String, Vec<u8>)> = Vec::new();
     
         for i in 0..archive.len() {
             let mut zip_file = archive.by_index(i)?;
     
-            // Read the file content into a buffer
+           
             let mut buffer = Vec::new();
             zip_file.read_to_end(&mut buffer)?;
     
-            // Decompress if necessary (e.g., if the file is gzipped)
             if zip_file.name().ends_with(".gz") {
                 let mut decoder = GzDecoder::new(Cursor::new(buffer));
                 let mut decompressed_buffer = Vec::new();
