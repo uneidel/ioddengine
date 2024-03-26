@@ -861,7 +861,7 @@ dependencies = [
 
 [[package]]
 name = "ioddengine"
-version = "0.1.0"
+version = "0.1.3"
 dependencies = [
  "anyhow",
  "bitvec",
@@ -879,13 +879,6 @@ dependencies = [
  "tokio",
  "yaserde",
  "zip",
-]
-
-[[package]]
-name = "ioddlib"
-version = "0.1.3"
-dependencies = [
- "anyhow",
 ]
 
 [[package]]

@@ -26,7 +26,7 @@ pub fn parse_zip_file(file_path : &str){
             panic!("Error reading file: {}", err);
         }
     };
-    let result = ioddengine::catalog::Catalog::extract_zip_to_vec(&content).unwrap_or_else(|err| panic!("error handling zip file"));
+    let result = ioddengine::catalog::Catalog::extract_zip_to_vec(&content).unwrap_or_else(|_err| panic!("error handling zip file"));
     let drivername = result.iter()
         .filter_map(|(filename, _)| {
             if filename.ends_with(".xml") {

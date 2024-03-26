@@ -207,9 +207,9 @@ mod tests {
     use ioddengine::catalog::Catalog;
     use ioddengine::engine::{Engine};
 
-    use super::*;
+
     #[tokio::test]
-    async fn test_AS001_Read() {
+    async fn test_as001_read() {
         let hexdata = "008D00D3";
         let catalog = Catalog::new_with_db(None);
         let (drivername, files) = 
@@ -217,7 +217,7 @@ mod tests {
         let p = ioddengine::parser::Parser::new(drivername, files);
         let e = Engine::new(&p.iodevice, "en");
 
-        let res = e.parse(hexdata).unwrap();
+        let _res = e.parse(hexdata).unwrap();
         
         todo!("Implement me");
     }

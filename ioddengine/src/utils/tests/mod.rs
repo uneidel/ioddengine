@@ -53,7 +53,7 @@ mod tests {
     }
 
     #[test]
-    fn test_get_booleanT() {
+    fn test_get_booleant() {
         let mut bitvec: BitVec = std::iter::repeat(false).take(32).collect();
 
         bitvec.store(0x11D7);

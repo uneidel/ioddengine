@@ -1,5 +1,5 @@
 [package]
-name = "iodd11-engine"
+name = "ioddengine"
 version = "0.1.3"
 edition = "2021"
 description = "IODD 1.1 Engine"

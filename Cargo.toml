@@ -1,5 +1,5 @@
 [workspace]
-workspace = {members  =[ "ioddengine","ioddcli", "iotcoreconnect"]}
+members = [ "ioddengine","ioddcli", "iotcoreconnect"]
 
 
 

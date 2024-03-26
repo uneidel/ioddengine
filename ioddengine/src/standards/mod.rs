@@ -131,7 +131,7 @@ mod tests{
     // Define a test function
     #[test]
     fn load_definitions() {
-        let definitions = Standards::parsedefinitions();
+        let _definitions = Standards::parsedefinitions();
         assert_eq!(true,true);
     }
 }
