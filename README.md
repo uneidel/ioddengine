@@ -103,6 +103,6 @@ cargo run get-menu  --vendorid 310 --deviceid 706 --productname TN2405 --role ob
 ### TODO
 - [ ] Read Variables from Device before printing PDIN eg. Device could be set to Fahrenheit instead of Celsisus
 - [ ] Do CRC32 Check - if possible
-- [ ] Github Actions
+- [ ] Update Github Actions
 - [ ] Some more Documentation
 - [ ] Adding more Encoder DataTypes
