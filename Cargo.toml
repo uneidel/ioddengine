@@ -1,7 +1,7 @@
 [workspace]
 members = [ "ioddengine","ioddcli", "iotcoreconnect"]
 
-
+resolver = "2"
 
 
 
