@@ -1,109 +1,183 @@
-# IODD Engine 
+# IODD Engine
 
-This repository houses the implementation of an IoDD Engine, featuring a parser command-line interface (CLI) and a catalog system. The IoDD Engine is designed to facilitate seamless interaction and management of digital devices within interconnected networks. 
+A Rust toolkit for parsing [IO-Link](https://io-link.com) Device Descriptions (IODD 1.1), decoding/encoding process data, and interacting with IFM IoTCore masters.
 
-It also has a implementation of a Client for IFM IoTCore.
+IODD Engine turns raw hexadecimal sensor data into human-readable values with names, units, and descriptions -- and can encode values back for writing to devices.
 
-The parser CLI offers a user-friendly interface for executing commands and queries, enabling efficient communication with the IoDD Engine.
-This Engine only targets Version 1.1 of IODD.
+## Features
 
-[IODD Specs](https://io-link.com/share/Downloads/Spec-IODD/IO-Device-Desc-Spec_10012_V113_Feb24.zip)
+- **IODD XML Parsing** -- Parse IODD 1.1 XML files and ZIP archives into strongly-typed Rust structs
+- **Process Data Decoding** -- Convert hex PDIn data into named data points with values, units, and descriptions
+- **Process Data Encoding** -- Encode human-readable values back to hex for writing to devices
+- **IODD Catalog** -- Query the official [IODD Finder API](https://ioddfinder.io-link.com) to download device descriptions automatically
+- **Menu Navigation** -- Browse Observer, Maintenance, and Specialist menus with conditional resolution
+- **Multi-Language Support** -- 10 languages (EN, DE, ES, FR, IT, JA, KO, PT, RU, ZH)
+- **IFM IoTCore Client** -- Read/write parameters and process data from IFM IO-Link masters over HTTP
+- **WebAssembly Ready** -- Core crates target `wasm32-unknown-unknown`
 
+## Workspace Structure
 
-**Catalog**:
-    - Store Information about VendorId, DeviceId and Productname and the correspoding IODD Zip File.    
-    
+| Crate | Description |
+|---|---|
+| `ioddengine` | Core library -- parser, engine, catalog, encoders/decoders |
+| `ioddcli` | Command-line interface with 10 subcommands |
+| `iotcoreconnect` | HTTP client for IFM IoTCore IO-Link masters |
 
-**Engine:**
-    - allows to parse PDIn and settings of variables. ObserverMenu and ParameterMenu are implemented.
+## Quick Start
 
-**Cli:**    
-    - allows cli based interactions with IODD Sensor
+### Prerequisites
 
-**IoTCoreConnect:**
-    - Client for interaction with IFM IotCore
+- Rust (2021 edition)
+- Download the [IODD Standard Definitions](https://io-link.com/share/Downloads/Spec-IODD/IO-Device-Desc-Spec_10012_V113_Feb24.zip) and place the spec files into `data/specs/`
+- For live device interaction: a network-accessible IFM IoTCore master
 
+### Build
 
-This Code is licensed under Apache 2.0.
-
-Additional needed files [Standard Definitions](https://io-link.com/share/Downloads/Spec-IODD/IO-Device-Desc-Spec_10012_V113_Feb24.zip) manually in place it into /data/specs.
-
-Please see CLI for further information how to work with Library.
-This library was tested with serveral io-link devices.
-
-### example output
-Vendor: 310, ProductName:SD1540, Device:872
-HexData: 0000000000000000FE00079EFE0000000300     
-Name: Totalisator, Desc: Durchflussmenge. Der Wert entspricht der aktuellen Verbrauchsmenge seit dem letzten Reset, Value: 0.0, Unit: m³    
-Name: Durchfluss, Desc: Aktueller Durchfluss, Value: 0.0, Unit: m³/h    
-Name: Temperatur, Desc: Aktuelle Temperatur, Value: 19.5, Unit: °C    
-Name: Druck, Desc: Aktueller Druck, Value: 0.0, Unit: bar    
-Name: Gerätestatus, Desc: Aktueller Gerätestatus, eine Kopie des Parameters [Gerätestatus, Index 36] im Prozessdatenkanal, Value: 0.0    
-Name: OUT2, Desc: Aktueller Zustand des digitalen Signals [OUT2], Value: "OFF"    
-Name: OUT1, Desc: Aktueller Zustand des digitalen Signals [OUT1], Value: "OFF"    
-
-### CLI examples
-#### Read Current values from Device
-ioddcli eval --ip 192.168.56.89 --port 1
-#### Read Device variable by index
-ioddcli read-parameter 192.168.56.89 2 551 0 
-
-#### List all Variables
-ioddcli  list-variable --vendorid 310 --deviceid 706 --productname TN2405 --accessrights rw
-
-#### Show variable by Name (id)
-ioddcli  variable --vendorid 310 --deviceid 706 --productname TN2405 --id V_diS
-
-#### Read Parameter from IO DEVICE
-cli read-parameter --ip 192.168.56.89 --port 2 --index 551 --subindex 0
-
-#### Encode Variable
-ioddcli  encode-variable --vendorid 310 --deviceid 706 --productname TN2405 --id V_diS --param false, true, 4
-
-#### Set - Parameter 
-cargo run set-parameter --ip 192.168.56.89 --port 2 --index 552 --subindex 0 --hexdata 4400
-
-#### Convert RawValues to Hex
-ioddcli  encode-variable --vendorid 310 --deviceid 706 --productname TN2405 --id V_uni --param "0"
-or 
-ioddcli  encode-variable --vendorid 310 --deviceid 706 --productname TN2405 --id V_diS --param "true, false, 4" 
-
-#### Read Menus
-cargo run get-menu  --vendorid 310 --deviceid 706 --productname TN2405 --role observer --menu parameter 
-
-
-### example 
-```rust
-    let catalog = Catalog::new_with_db(None);
-    let (drivername,files) = catalog.queryfordriver(*deviceid, productname.to_owned(), *vendorid).await;
-    let p = Parser::new(drivername, files);
-    let e = Engine::new(&p.iodevice, super::super::LANGLOCALE);
-    println!("HexData: {}", hex_data);
-    let datapoints = match e.parse(hex_data){
-        Ok(x) => x,
-        Err(err) => {panic!("Error: {:?}", err)}
-    };
-    for h in entries {
-        println!(
-            "Name: {}, Desc: {}, Value: {}{}",
-            h.name,
-            h.description,
-            h.value,
-            if !h.unit.is_empty() {
-                format!(", Unit: {}", h.unit)
-            } else {
-                String::new() // Empty string if unit is empty
-            }
-        );
-    }
+```bash
+cargo build --all
 ```
 
-### TODO
-- [ ] Read Variables from Device before printing PDIN eg. Device could be set to Fahrenheit instead of Celsisus
-- [ ] Do CRC32 Check - if possible
-- [ ] Update Github Actions
-- [ ] Some more Documentation
-- [ ] Adding more Encoder DataTypes
+### Run Tests
 
-please note: 
-In the event of any potential copyright violations, we kindly request that you contact the owner or administrator of the content in question before taking any further action. It is essential to address such matters through respectful and constructive communication to ensure that any concerns are properly addressed and resolved in accordance with applicable laws and regulations. By reaching out to the content owner first, we aim to foster a collaborative approach to resolving any copyright issues while upholding the integrity of intellectual property rights. Thank you for your understanding and cooperation in this matter.
+```bash
+cargo test --verbose
+```
+
+### Run Benchmarks
+
+```bash
+cargo bench
+```
+
+## CLI Usage
+
+```bash
+cargo run -p ioddcli -- <subcommand> [args]
+```
+
+### Read live process data from a device
+
+```bash
+ioddcli eval --ip 192.168.56.89 --port 1
+```
+
+### Parse an IODD XML or ZIP file
+
+```bash
+ioddcli parse --file path/to/device.xml
+ioddcli parsezip --file path/to/device.zip
+```
+
+### Decode raw hex data offline
+
+```bash
+ioddcli parseraw --vendorid 310 --deviceid 872 --productname SD1540 \
+  --hexdata 0000000000000000FE00079EFE0000000300
+```
+
+### List and inspect variables
+
+```bash
+# List all read-write variables
+ioddcli list-variable --vendorid 310 --deviceid 706 --productname TN2405 --accessrights rw
+
+# Show a specific variable
+ioddcli variable --vendorid 310 --deviceid 706 --productname TN2405 --id V_diS
+```
+
+### Read/write device parameters
+
+```bash
+# Read a parameter
+ioddcli read-parameter --ip 192.168.56.89 --port 2 --index 551 --subindex 0
+
+# Write a parameter
+ioddcli set-parameter --ip 192.168.56.89 --port 2 --index 552 --subindex 0 --hexdata 4400
+```
+
+### Encode values to hex
+
+```bash
+ioddcli encode-variable --vendorid 310 --deviceid 706 --productname TN2405 \
+  --id V_uni --param "0"
+
+ioddcli encode-variable --vendorid 310 --deviceid 706 --productname TN2405 \
+  --id V_diS --param "true, false, 4"
+```
+
+### Browse device menus
+
+```bash
+ioddcli get-menu --vendorid 310 --deviceid 706 --productname TN2405 \
+  --role observer --menu parameter
+```
+
+## Library Usage
+
+```rust
+use ioddengine::{catalog::Catalog, parser::Parser, engine::Engine};
+
+let catalog = Catalog::new_with_db(None);
+let (drivername, files) = catalog
+    .queryfordriver(device_id, product_name.to_owned(), vendor_id)
+    .await;
+
+let parser = Parser::new(drivername, files);
+let engine = Engine::new(&parser.iodevice, "en");
+
+let datapoints = engine.parse(hex_data).expect("Failed to parse process data");
+
+for dp in datapoints {
+    println!(
+        "Name: {}, Desc: {}, Value: {}{}",
+        dp.name,
+        dp.description,
+        dp.value,
+        if !dp.unit.is_empty() {
+            format!(", Unit: {}", dp.unit)
+        } else {
+            String::new()
+        }
+    );
+}
+```
+
+**Example output** (SD1540 flow sensor):
+```
+HexData: 0000000000000000FE00079EFE0000000300
+Name: Totalisator, Desc: Durchflussmenge, Value: 0.0, Unit: m³
+Name: Durchfluss, Desc: Aktueller Durchfluss, Value: 0.0, Unit: m³/h
+Name: Temperatur, Desc: Aktuelle Temperatur, Value: 19.5, Unit: °C
+Name: Druck, Desc: Aktueller Druck, Value: 0.0, Unit: bar
+Name: OUT2, Desc: Aktueller Zustand des digitalen Signals [OUT2], Value: "OFF"
+Name: OUT1, Desc: Aktueller Zustand des digitalen Signals [OUT1], Value: "OFF"
+```
+
+## Environment Variables
+
+| Variable | Description | Default |
+|---|---|---|
+| `LOCALE` | Language for text resolution | `en` |
+| `RUST_LOG` | Log verbosity (`debug`, `info`, `warn`, `error`) | -- |
+
+## Supported Data Types
+
+| Type | Decode | Encode |
+|---|---|---|
+| `RecordT` | Yes | Yes |
+| `UIntegerT` | Yes | Yes |
+| `IntegerT` | Yes | Yes |
+| `Float32T` | Yes | Yes |
+| `BooleanT` | Yes | Yes |
+| `StringT` | -- | Yes |
+
+## Roadmap
+
+- [ ] Read device variables before printing PDIn (e.g. Fahrenheit vs Celsius setting)
+- [ ] CRC32 verification on IODD files
+- [ ] Top-level decode support for standalone data types (IntegerT, StringT, OctetStringT, TimeT, TimeSpanT, ArrayT)
+- [ ] Additional encoder data types
+
+## License
+
+MIT -- see [LICENSE](LICENSE) for details.
